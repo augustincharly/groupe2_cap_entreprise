@@ -1,5 +1,6 @@
 package com.humanbooster.groupe2_cap_entreprise.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,7 +26,7 @@ public class Editeur {
 	
 	
 	@OneToMany(mappedBy = "editeur", cascade = { CascadeType.PERSIST, CascadeType.MERGE }) 
-	private List<Jeu> jeux;
+	private List<Jeu> jeux= new ArrayList<Jeu>();
 
 
 	public Long getId() {

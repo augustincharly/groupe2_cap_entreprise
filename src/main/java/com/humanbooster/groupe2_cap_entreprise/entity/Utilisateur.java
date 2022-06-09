@@ -11,11 +11,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="utilisateur")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Utilisateur {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="utilisateur_id")
 	protected Long id;
 	
