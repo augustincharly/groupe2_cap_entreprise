@@ -12,6 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+
 
 
 @Entity
@@ -24,12 +28,15 @@ public class Avis {
 	@Column(name="avis_id")
 	private Long id;
 	
-	@Column(name = "description")
+	@NotEmpty
+	@Column(name = "description", nullable = false)
 	private String description;
 	
 	@Column(name = "dateEnvoi")
 	private LocalDateTime dateEnvoi;
 	
+	@Min(value = 0)
+	@Max(value = 20)
 	@Column(name = "note")
 	private float note;
 	
@@ -37,11 +44,11 @@ public class Avis {
 	private LocalDateTime dateModeration;
 	
 	@ManyToOne
-	@JoinColumn(name = "joueur_id")
+	@JoinColumn(name = "joueur_id",nullable = false)
 	private Joueur joueur;
 	
 	@ManyToOne
-	@JoinColumn(name = "jeu_id")
+	@JoinColumn(name = "jeu_id", nullable = false)
 	private Jeu jeu;
 	
 	@OneToOne(cascade = CascadeType.ALL)

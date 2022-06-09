@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Past;
 
 @Entity
 @Table(name = "jeu")
@@ -26,12 +28,15 @@ public class Jeu {
 	@Column(name="jeu_id")
 	private Long id;
 	
-	@Column(name = "nom")
+	@NotEmpty
+	@Column(name = "nom",nullable = false)
 	private String nom;
 	
-	@Column(name = "description")
+	@NotEmpty
+	@Column(name = "description",nullable = false)
 	private String description;
 	
+	@Past
 	@Column(name = "dateDeSortie")
 	private LocalDate dateDeSortie;
 	
@@ -40,24 +45,24 @@ public class Jeu {
 	
 	
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(joinColumns = @JoinColumn(name = "jeu_id"), inverseJoinColumns = @JoinColumn(name = "plateforme_id"))
+	@JoinTable(joinColumns = @JoinColumn(name = "jeu_id"), inverseJoinColumns = @JoinColumn(name = "plateforme_id",nullable = false))
 	private List<Plateforme> plateformes;
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "modeleEconomique_id")
+	@JoinColumn(name = "modeleEconomique_id",nullable = false)
 	private ModeleEconomique modeleEconomique;
 	
 	@ManyToOne
-	@JoinColumn(name = "editeur_id")
+	@JoinColumn(name = "editeur_id",nullable = false)
 	private Editeur editeur;
 	
 	@ManyToOne
-	@JoinColumn(name = "genre_id")
+	@JoinColumn(name = "genre_id",nullable = false)
 	private Genre genre;
 	
 	@ManyToOne
-	@JoinColumn(name = "classification_id")
+	@JoinColumn(name = "classification_id",nullable = false)
 	private Classification classification;
 	
 	@OneToMany(mappedBy = "jeu", cascade =  CascadeType.ALL, orphanRemoval = true) 
@@ -194,7 +199,17 @@ public class Jeu {
 		this.moderateur = moderateur;
 	}
 
-
+	public void addPlateformes(Plateforme plateforme) {
+		plateformes.add(plateforme);
+		plateforme.getJeux().add(this);
+		
+	}
+	
+	public void removePlateformes(Plateforme plateforme) {
+		plateformes.remove(plateforme);
+		plateforme.getJeux().remove(this);
+		
+	}
 	
 	
 	

@@ -65,5 +65,13 @@ public class Classification {
 		super();
 	}
 	
+	public void addJeu(Jeu jeu) {
+		jeux.add(jeu);
+		jeu.setClassification(this);
+		}
 	
+	public void removeJeu(Jeu jeu) {
+		jeux.remove(jeu);
+		jeu.setClassification(null);
+	}
 }

@@ -50,6 +50,15 @@ public class Joueur extends Utilisateur{
 		return "Joueur [dateDeNaissance=" + dateDeNaissance + ", avis=" + avis + "]";
 	}
 	
+	public void addAvis(Avis avis) {
+		this.avis.add(avis);
+		avis.setJoueur(this);
+		
+		}
 	
+	public void removeAvis(Avis avis) {
+		this.avis.remove(avis);
+		avis.setJoueur(null);
+	}
 	
 }

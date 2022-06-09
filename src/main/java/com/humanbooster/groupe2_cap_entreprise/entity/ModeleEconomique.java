@@ -77,6 +77,14 @@ public class ModeleEconomique {
 		super();
 	}
 	
+	public void addJeu(Jeu jeu) {
+		jeux.add(jeu);
+		jeu.setModeleEconomique(this);
+		}
 	
+	public void removeJeu(Jeu jeu) {
+		jeux.remove(jeu);
+		jeu.setModeleEconomique(null);
+	}
 	
 }
