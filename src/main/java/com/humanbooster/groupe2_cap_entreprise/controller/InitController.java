@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.humanbooster.groupe2_cap_entreprise.entity.Classification;
 import com.humanbooster.groupe2_cap_entreprise.entity.Editeur;
@@ -32,6 +34,7 @@ import com.humanbooster.groupe2_cap_entreprise.service.IPlateformeService;
 
 //Initialisation de la base de données
 @Controller
+@RequestMapping(value = "init")
 public class InitController {
 	
 	
@@ -64,8 +67,8 @@ public class InitController {
 	@Autowired
 	private IJeuService jeuService;
 	
-	@GetMapping("/init")
-	public String getHomePage() {
+	@GetMapping
+	public ModelAndView getHomePage() {
 		
 		Classification classification1= new Classification();
 		classification1.setNom("PEGI 6");
@@ -145,10 +148,9 @@ public class InitController {
 		genre2.addJeu(jeu2);
 		classification2.addJeu(jeu2);
 		jeuService.save(jeu2);
-
 		
 		
-		return "home";
+		return new ModelAndView("redirect:/login");
 	}
 
 
