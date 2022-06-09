@@ -10,14 +10,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="joueur")
-public class Joueur extends Utilisateur{
+@Table(name = "joueur")
+public class Joueur extends Utilisateur {
 
 	@Column(name = "dateDeNaissance", nullable = false)
 	private LocalDate dateDeNaissance;
-	
-	@OneToMany(mappedBy = "joueur", cascade = { CascadeType.PERSIST, CascadeType.MERGE }) 
+
+	@OneToMany(mappedBy = "joueur", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Avis> avis;
+
+	public Joueur() {
+	}
 
 	public LocalDate getDateDeNaissance() {
 		return dateDeNaissance;
@@ -49,16 +52,16 @@ public class Joueur extends Utilisateur{
 	public String toString() {
 		return "Joueur [dateDeNaissance=" + dateDeNaissance + ", avis=" + avis + "]";
 	}
-	
+
 	public void addAvis(Avis avis) {
 		this.avis.add(avis);
 		avis.setJoueur(this);
-		
-		}
-	
+
+	}
+
 	public void removeAvis(Avis avis) {
 		this.avis.remove(avis);
 		avis.setJoueur(null);
 	}
-	
+
 }

@@ -5,8 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="moderateur")
-public class Moderateur extends Utilisateur{
+@Table(name = "moderateur")
+public class Moderateur extends Utilisateur {
 
 	@Column(name = "numeroDeTelephone")
 	private String numeroDeTelephone;
@@ -28,10 +28,12 @@ public class Moderateur extends Utilisateur{
 		super(pseudo, motDePasse, email);
 	}
 
+	public Moderateur() {
+	}
+
 	@Override
 	public String toString() {
 		return "Moderateur [numeroDeTelephone=" + numeroDeTelephone + "]";
 	}
-	
-	
+
 }
