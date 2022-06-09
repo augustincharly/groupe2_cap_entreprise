@@ -12,7 +12,7 @@ import com.humanbooster.groupe2_cap_entreprise.repository.AvisRepository;
 import com.humanbooster.groupe2_cap_entreprise.transformer.TransformerFactory;
 
 @Service
-public class AvisService {
+public class AvisService implements IAvisService {
 
 	@Autowired
 	private AvisRepository avisRepository;
