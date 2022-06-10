@@ -7,6 +7,6 @@ import com.humanbooster.groupe2_cap_entreprise.entity.ModeleEconomique;
 @Component
 public interface IModeleEconomiqueService {
 
-	void save(ModeleEconomique modeleEconomique);
+	public void save(ModeleEconomique modeleEconomique);
 
 }
