@@ -63,6 +63,7 @@ public class AvisController {
 		Jeu jeu = jeuService.getJeuByID(avisjeu.getJeu_id());
 		avisService.saveNewAvis(avisjeu.getAvis_description(), avisjeu.getAvis_note(),jeu);
 		return new ModelAndView("redirect:/avis");
+	}
 
 
 

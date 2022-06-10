@@ -1,6 +1,7 @@
 package com.humanbooster.groupe2_cap_entreprise.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,7 +18,7 @@ public class Joueur extends Utilisateur {
 	private LocalDate dateDeNaissance;
 
 	@OneToMany(mappedBy = "joueur", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	private List<Avis> avis;
+	private List<Avis> avis=new ArrayList<>();
 
 	public Joueur() {
 	}

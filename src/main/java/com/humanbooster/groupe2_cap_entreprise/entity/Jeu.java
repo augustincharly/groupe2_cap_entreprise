@@ -1,6 +1,7 @@
 package com.humanbooster.groupe2_cap_entreprise.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -46,7 +47,7 @@ public class Jeu {
 	
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(joinColumns = @JoinColumn(name = "jeu_id"), inverseJoinColumns = @JoinColumn(name = "plateforme_id",nullable = false))
-	private List<Plateforme> plateformes;
+	private List<Plateforme> plateformes= new ArrayList<>();
 	
 	
 	@ManyToOne
