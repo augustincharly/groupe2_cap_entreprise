@@ -8,5 +8,7 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Joueur;
 public interface IJoueurService {
 
 	void save(Joueur joueur);
+	
+	public Joueur getJoueurById(long id);
 
 }
