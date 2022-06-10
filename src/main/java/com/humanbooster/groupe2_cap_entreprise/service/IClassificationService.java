@@ -7,6 +7,6 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Classification;
 @Component
 public interface IClassificationService {
 
-	void save(Classification classification1);
+	public void save(Classification classification1);
 
 }
