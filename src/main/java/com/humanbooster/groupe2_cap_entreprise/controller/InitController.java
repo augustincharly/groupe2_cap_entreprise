@@ -1,6 +1,7 @@
 package com.humanbooster.groupe2_cap_entreprise.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.humanbooster.groupe2_cap_entreprise.entity.Avis;
 import com.humanbooster.groupe2_cap_entreprise.entity.Classification;
 import com.humanbooster.groupe2_cap_entreprise.entity.Editeur;
 import com.humanbooster.groupe2_cap_entreprise.entity.Genre;
@@ -19,6 +21,7 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Joueur;
 import com.humanbooster.groupe2_cap_entreprise.entity.ModeleEconomique;
 import com.humanbooster.groupe2_cap_entreprise.entity.Moderateur;
 import com.humanbooster.groupe2_cap_entreprise.entity.Plateforme;
+import com.humanbooster.groupe2_cap_entreprise.service.IAvisService;
 import com.humanbooster.groupe2_cap_entreprise.service.IClassificationService;
 import com.humanbooster.groupe2_cap_entreprise.service.IEditeurService;
 import com.humanbooster.groupe2_cap_entreprise.service.IGenreService;
@@ -61,6 +64,9 @@ public class InitController {
 
 	@Autowired
 	private IJeuService jeuService;
+	
+	@Autowired
+	private IAvisService avisService;
 
 	@GetMapping
 	public ModelAndView getHomePage() {
@@ -74,6 +80,12 @@ public class InitController {
 		Classification classification3 = new Classification();
 		classification3.setNom("PEGI 16");
 		classificationService.save(classification3);
+		Classification classification4 = new Classification();
+		classification4.setNom("PEGI 16");
+		classificationService.save(classification4);
+		Classification classification5 = new Classification();
+		classification5.setNom("PEGI 18");
+		classificationService.save(classification5);
 
 		Editeur editeur1 = new Editeur();
 		editeur1.setNom("UBISOFT");
@@ -84,6 +96,18 @@ public class InitController {
 		Editeur editeur3 = new Editeur();
 		editeur3.setNom("FROMSOFTWARE");
 		editeurService.save(editeur3);
+		Editeur editeur4 = new Editeur();
+		editeur4.setNom("Electronics Arts");
+		editeurService.save(editeur4);
+		Editeur editeur5 = new Editeur();
+		editeur5.setNom("Activision-Blizzard");
+		editeurService.save(editeur5);
+		Editeur editeur6 = new Editeur();
+		editeur6.setNom("Bandai-Namco");
+		editeurService.save(editeur6);
+		Editeur editeur7 = new Editeur();
+		editeur7.setNom("Take two");
+		editeurService.save(editeur7);
 
 		Genre genre1 = new Genre();
 		genre1.setNom("horreur");
@@ -94,6 +118,22 @@ public class InitController {
 		Genre genre3 = new Genre();
 		genre3.setNom("FPS");
 		genreService.save(genre3);
+		Genre genre4 = new Genre();
+		genre4.setNom("jeu de rôle");
+		genreService.save(genre4);
+		Genre genre5 = new Genre();
+		genre5.setNom("réflexion");
+		genreService.save(genre5);
+		Genre genre6 = new Genre();
+		genre6.setNom("simulation");
+		genreService.save(genre6);
+		Genre genre7 = new Genre();
+		genre7.setNom("stratégie");
+		genreService.save(genre7);
+		Genre genre8 = new Genre();
+		genre8.setNom("sports");
+		genreService.save(genre8);
+		
 
 		ModeleEconomique modeleEconomique1 = new ModeleEconomique();
 		modeleEconomique1.setNom("Free To Play");
@@ -101,6 +141,12 @@ public class InitController {
 		ModeleEconomique modeleEconomique2 = new ModeleEconomique();
 		modeleEconomique2.setNom("Pay To Play");
 		modeleEconomiqueService.save(modeleEconomique2);
+		ModeleEconomique modeleEconomique3 = new ModeleEconomique();
+		modeleEconomique3.setNom("Free To Start");
+		modeleEconomiqueService.save(modeleEconomique3);
+		ModeleEconomique modeleEconomique4 = new ModeleEconomique();
+		modeleEconomique4.setNom("Play To Earn");
+		modeleEconomiqueService.save(modeleEconomique4);
 
 		Plateforme plateforme1 = new Plateforme();
 		plateforme1.setNom("PC");
@@ -111,6 +157,16 @@ public class InitController {
 		Plateforme plateforme3 = new Plateforme();
 		plateforme3.setNom("Xbox series X/S");
 		plateformeService.save(plateforme3);
+		Plateforme plateforme4 = new Plateforme();
+		plateforme4.setNom("Xbox One/One x");
+		plateformeService.save(plateforme4);
+		Plateforme plateforme5 = new Plateforme();
+		plateforme5.setNom("Xbox series X/S");
+		plateformeService.save(plateforme5);
+		Plateforme plateforme6 = new Plateforme();
+		plateforme6.setNom("Nintendo Switch");
+		plateformeService.save(plateforme6);
+		
 
 		Joueur joueur1 = new Joueur("augustin", passwordEncoder().encode("augustin"), "aa@gmail.com");
 		joueur1.setDateDeNaissance(LocalDate.parse("2022-12-21"));
@@ -151,6 +207,57 @@ public class InitController {
 		genre2.addJeu(jeu2);
 		classification2.addJeu(jeu2);
 		jeuService.save(jeu2);
+		
+		Avis avis1=new Avis();
+		avis1.setDateEnvoi(LocalDateTime.now());
+		avis1.setJeu(jeu1);
+		avis1.setDescription("un jeu de bourrin");
+		avis1.setNote((float)16.5);
+		avis1.setJoueur(joueur1);
+		avisService.saveNewAvis(avis1);
+		
+		Avis avis2=new Avis();
+		avis2.setDateEnvoi(LocalDateTime.now());
+		avis2.setJeu(jeu2);
+		avis2.setDescription("un jeu d'arcade");
+		avis2.setNote((float)12.0);
+		avis2.setJoueur(joueur3);
+		avisService.saveNewAvis(avis2);
+		
+		Avis avis3=new Avis();
+		avis3.setDateEnvoi(LocalDateTime.now());
+		avis3.setJeu(jeu2);
+		avis3.setDescription("un deuxième avis");
+		avis3.setNote((float)6.0);
+		avis3.setJoueur(joueur2);
+		avisService.saveNewAvis(avis3);
+		
+		Avis avis4=new Avis();
+		avis4.setDateEnvoi(LocalDateTime.now());
+		avis4.setJeu(jeu2);
+		avis4.setDescription("un troisième avis");
+		avis4.setNote((float)15.0);
+		avis4.setJoueur(joueur1);
+		avisService.saveNewAvis(avis4);
+		
+		Avis avis5=new Avis();
+		avis5.setDateEnvoi(LocalDateTime.now());
+		avis5.setJeu(jeu1);
+		avis5.setDescription("un premier avis");
+		avis5.setNote((float)17.0);
+		avis5.setJoueur(joueur2);
+		avisService.saveNewAvis(avis5);
+		
+		Avis avis6=new Avis();
+		avis6.setDateEnvoi(LocalDateTime.now());
+		avis6.setJeu(jeu1);
+		avis6.setDescription("un deuxième avis");
+		avis6.setNote((float)12.0);
+		avis6.setJoueur(joueur3);
+		avisService.saveNewAvis(avis6);
+		
+		
+		
 
 		return new ModelAndView("redirect:/login");
 	}

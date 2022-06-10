@@ -57,4 +57,10 @@ public class AvisService implements IAvisService{
 
 	}
 
+	@Override
+	public void saveNewAvis(Avis avis) {
+		avisRepository.save(avis);
+		
+	}
+
 }

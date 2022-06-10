@@ -22,4 +22,6 @@ public interface IAvisService {
   
   public void saveNewAvis(String avis_description, float avis_note, Jeu jeu);
 
+public void saveNewAvis(Avis avis);
+
 }
