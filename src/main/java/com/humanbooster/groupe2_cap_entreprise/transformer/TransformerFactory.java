@@ -8,5 +8,9 @@ public class TransformerFactory {
 	public static AvisTransformer getAvisTransformer() {
 		return new AvisTransformer();
 	}
-	
+
+	public static JeuTransformer getJeuTransformer() {
+		return new JeuTransformer();
+	}
+
 }
