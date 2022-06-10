@@ -1,6 +1,5 @@
 package com.humanbooster.groupe2_cap_entreprise.controller;
 
-
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,57 +28,53 @@ import com.humanbooster.groupe2_cap_entreprise.service.IModeleEconomiqueService;
 import com.humanbooster.groupe2_cap_entreprise.service.IModerateurService;
 import com.humanbooster.groupe2_cap_entreprise.service.IPlateformeService;
 
-
-
-
 //Initialisation de la base de données
 @Controller
 @RequestMapping(value = "init")
 public class InitController {
-	
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Autowired
 	private IEditeurService editeurService;
-	
+
 	@Autowired
 	private IClassificationService classificationService;
-	
+
 	@Autowired
 	private IGenreService genreService;
-	
+
 	@Autowired
 	private IModeleEconomiqueService modeleEconomiqueService;
-	
+
 	@Autowired
 	private IPlateformeService plateformeService;
-	
+
 	@Autowired
 	private IJoueurService joueurService;
-	
+
 	@Autowired
 	private IModerateurService moderateurService;
-	
+
 	@Autowired
 	private IJeuService jeuService;
-	
+
 	@GetMapping
 	public ModelAndView getHomePage() {
-		
-		Classification classification1= new Classification();
+
+		Classification classification1 = new Classification();
 		classification1.setNom("PEGI 6");
 		classificationService.save(classification1);
-		Classification classification2= new Classification();
+		Classification classification2 = new Classification();
 		classification2.setNom("PEGI 12");
 		classificationService.save(classification2);
-		Classification classification3= new Classification();
+		Classification classification3 = new Classification();
 		classification3.setNom("PEGI 16");
 		classificationService.save(classification3);
-				
+
 		Editeur editeur1 = new Editeur();
 		editeur1.setNom("UBISOFT");
 		editeurService.save(editeur1);
@@ -89,7 +84,7 @@ public class InitController {
 		Editeur editeur3 = new Editeur();
 		editeur3.setNom("FROMSOFTWARE");
 		editeurService.save(editeur3);
-		
+
 		Genre genre1 = new Genre();
 		genre1.setNom("horreur");
 		genreService.save(genre1);
@@ -99,60 +94,65 @@ public class InitController {
 		Genre genre3 = new Genre();
 		genre3.setNom("FPS");
 		genreService.save(genre3);
-		
-		ModeleEconomique modeleEconomique1=new ModeleEconomique();
+
+		ModeleEconomique modeleEconomique1 = new ModeleEconomique();
 		modeleEconomique1.setNom("Free To Play");
 		modeleEconomiqueService.save(modeleEconomique1);
-		ModeleEconomique modeleEconomique2=new ModeleEconomique();
+		ModeleEconomique modeleEconomique2 = new ModeleEconomique();
 		modeleEconomique2.setNom("Pay To Play");
 		modeleEconomiqueService.save(modeleEconomique2);
-		
-		Plateforme plateforme1=new Plateforme();
+
+		Plateforme plateforme1 = new Plateforme();
 		plateforme1.setNom("PC");
 		plateformeService.save(plateforme1);
-		Plateforme plateforme2=new Plateforme();
+		Plateforme plateforme2 = new Plateforme();
 		plateforme2.setNom("PlayStation 5");
 		plateformeService.save(plateforme2);
-		Plateforme plateforme3=new Plateforme();
+		Plateforme plateforme3 = new Plateforme();
 		plateforme3.setNom("Xbox series X/S");
 		plateformeService.save(plateforme3);
-		
-		Joueur joueur1 = new Joueur("augustin",passwordEncoder().encode("augustin"),"aa@gmail.com");
+
+		Joueur joueur1 = new Joueur("augustin", passwordEncoder().encode("augustin"), "aa@gmail.com");
 		joueur1.setDateDeNaissance(LocalDate.parse("2022-12-21"));
 		joueurService.save(joueur1);
-		Joueur joueur2 = new Joueur("antoine",passwordEncoder().encode("antoine"),"bb@gmail.com");
+		Joueur joueur2 = new Joueur("antoine", passwordEncoder().encode("antoine"), "bb@gmail.com");
 		joueur2.setDateDeNaissance(LocalDate.parse("2022-12-21"));
 		joueurService.save(joueur2);
-		Joueur joueur3 = new Joueur("manfred",passwordEncoder().encode("manfred"),"cc@gmail.com");
+		Joueur joueur3 = new Joueur("manfred", passwordEncoder().encode("manfred"), "cc@gmail.com");
 		joueur3.setDateDeNaissance(LocalDate.parse("2022-12-21"));
 		joueurService.save(joueur3);
-		
+
 		Moderateur moderateur = new Moderateur("modo", passwordEncoder().encode("MODO"), "modo@gmail.com");
-	
+
 		moderateurService.save(moderateur);
-		
-		Jeu jeu1=new Jeu();
+
+		Jeu jeu1 = new Jeu();
 		jeu1.setNom("Elden Ring");
 		jeu1.setDescription("...");
+		jeu1.setImage("https://image.api.playstation.com/vulcan/ap/rnd/202107/1612/Y5RHNmzAtc6sRYwZlYiKHAxN.png");
+		jeu1.addPlateformes(plateforme1);
+		jeu1.addPlateformes(plateforme3);
+		jeu1.addPlateformes(plateforme2);
 		modeleEconomique1.addJeu(jeu1);
 		editeur1.addJeu(jeu1);
 		genre1.addJeu(jeu1);
 		classification1.addJeu(jeu1);
 		jeuService.save(jeu1);
-		
-		Jeu jeu2=new Jeu();
+
+		Jeu jeu2 = new Jeu();
 		jeu2.setNom("PacMan");
 		jeu2.setDescription("...");
+		jeu2.setImage(
+				"https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/games_15/nes_5/H2x1_NES_PacMan_image1600w.jpg");
+		jeu2.addPlateformes(plateforme1);
+		jeu2.addPlateformes(plateforme2);
 		modeleEconomique2.addJeu(jeu2);
 		editeur2.addJeu(jeu2);
 		genre2.addJeu(jeu2);
 		classification2.addJeu(jeu2);
 		jeuService.save(jeu2);
-		
-		
+
 		return new ModelAndView("redirect:/login");
 	}
 
-
-	
 }
