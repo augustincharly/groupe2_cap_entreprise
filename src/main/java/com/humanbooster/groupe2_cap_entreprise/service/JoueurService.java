@@ -17,4 +17,8 @@ public class JoueurService implements IJoueurService{
 		joueurRepository.save(joueur);
 	}
 
+	public Joueur getJoueurById(long id) {
+		return joueurRepository.findById(id).get();
+	}
+
 }

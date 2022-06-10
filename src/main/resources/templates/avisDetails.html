@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Details d'un avis</title>
+<style>
+body {
+	padding: 20px;
+	height: 85%;
+}
+
+html {
+	height: 100%;
+}
+
+.container {
+	height: 100%;
+	display: flex;
+	width: 800px;
+	margin: auto;
+	justify-content: space-around;
+	align-items: center;
+	display: flex;
+}
+
+.button {
+	border: 1px solid blue;
+	color: blue;
+	padding: 10px;
+	border-radius: 0.5px;
+	text-decoration: none;
+}
+
+.button:hover{
+	background-color: grey;
+}
+
+img {
+	width: 300px;
+}
+
+.labels div {
+	margin-bottom: 15px;
+}
+</style>
+</head>
+
+<body>
+	<div>
+		<a class="button" th:href="@{/avis}">retour à la liste</a>
+	</div>
+	<div class="container">
+
+		<div class="labels">
+			<div>Nom du jeu</div>
+			<div>Pseudo du joueur</div>
+			<div>Description</div>
+			<div>Date d'envoi</div>
+			<div>Note</div>
+			<div>Statut</div>
+			<div>Plateforme(s)</div>
+		</div>
+
+
+		<div class="labels">
+			<div>
+				<span th:text="${avis.nomJeu}"></span>
+			</div>
+			<div>
+				<span th:text="${avis.pseudoJoueur}"></span>
+			</div>
+			<div>
+				<span th:text="${avis.description}"></span>
+			</div>
+			<div>
+				le <span
+					th:text="${#temporals.format(avis.dateEnvoi, 'dd/MM/yyyy')}"></span>
+				à <span th:text="${#temporals.format(avis.dateEnvoi, 'HH:mm')}"></span>
+			</div>
+			<div>
+				<span th:text="${avis.note}">
+			</div>
+			<div>
+				<span th:if="${avis.nomModerateur == null}">A modérer</span> <span
+					th:if="${avis.nomModerateur != null}">Modéré par <span
+					th:text="${avis.nomModerateur}"></span></span>
+			</div>
+			<div>
+				<span th:each="plateforme: ${avis.plateformes}"> <span
+					th:text="${plateforme}"></span>
+				</span>
+			</div>
+
+
+
+		</div>
+		<div>
+			<img alt="image du jeu" th:src="${avis.image}" />
+		</div>
+	</div>
+
+
+
+
+</body>
+</html>
