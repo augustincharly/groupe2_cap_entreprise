@@ -3,10 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <title>Liste des avis</title>
+
+<style>
+.placeholder{
+	height: 250px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+</style>
 </head>
 <body>
 	<h2>LISTE DES AVIS</h2>
-	<table border="true" style="border-collapse: collapse">
+	
+	
+	<div class="placeholder" th:if="${list_avis.size() == 0}" >
+		pas d'avis à afficher
+	</div>
+	<table border="true" style="border-collapse: collapse" th:if="${list_avis.size() != 0}">
 		<thead>
 			<th>Date d'envoi</th>
 			<th>Nom du Jeu</th>
