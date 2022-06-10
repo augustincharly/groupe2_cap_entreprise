@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Liste des jeux</title>
+</head>
+<body>
+	<h2>LISTE DES JEUX</h2>
+	<table border="true" style="border-collapse: collapse;margin-bottom: 25px">
+		<thead>
+			<th>Image</th>
+			<th>Nom</th>
+			<th>Editeur</th>
+			<th>Opérations</th>
+		</thead>
+		<tbody>
+			<tr th:each="jeu: ${jeux}">
+				<td style="padding: 5px"><img style="width: 100px"
+					th:src="${jeu.image}" /></td>
+				<td style="padding: 5px"><span th:text="${jeu.nom}" /></td>
+				<td style="padding: 5px"><span th:text="${jeu.editeur}" /></td>
+			
+				<td style="padding: 5px">
+				<a th:href="@{/jeu/{id}(id=${jeu.id})}">Voir</a>
+				<a th:href="@{/jeu/{id}/update(id=${jeu.id})}">Modifier</a>
+				<a href="#">Téléverser l'image</a>
+				<a th:href="@{/jeu/{id}/delete(id=${jeu.id})}" href="#">Supprimer</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="#" style="margin-right: 50px">Ajouter un jeu</a>
+	<a href="#">Liste des avis</a>
+</body>
+</html>

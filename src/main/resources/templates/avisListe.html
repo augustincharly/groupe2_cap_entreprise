@@ -26,7 +26,7 @@
 					th:src="${avis.image}" /></td>
 				<td style="padding: 5px" th:if="${avis.nomModerateur == null}">A modérer</td>
 				<td style="padding: 5px" th:if="${avis.nomModerateur != null}">Modéré par <span th:text="${avis.nomModerateur}"></span></td>
-				<td style="padding: 5px"><a href="#">Voir</a></td>
+				<td style="padding: 5px"><a th:href="@{/avis/{id}(id=${avis.id})}">Voir</a></td>
 			</tr>
 		</tbody>
 	</table>
