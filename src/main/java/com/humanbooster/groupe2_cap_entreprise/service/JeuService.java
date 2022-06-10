@@ -33,4 +33,22 @@ public class JeuService implements IJeuService {
 		jeuRepository.save(jeu);
 	}
 
+	public List<Jeu> getAllJeux() {
+		try {
+			return jeuRepository.findAll();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Jeu getJeuByID(Long jeu_id) {
+		Jeu jeu = jeuRepository.findById(jeu_id).get();
+		return jeu;
+	}
+
+
+
 }
