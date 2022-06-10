@@ -13,7 +13,9 @@ public class AvisTransformer {
 		avisDTO.setDateEnvoi(avis.getDateEnvoi());
 		avisDTO.setImage(avis.getJeu().getImage());
 		avisDTO.setNomJeu(avis.getJeu().getNom());
-		avisDTO.setNomModerateur(avis.getModerateur().getPseudo());
+		if (avis.getModerateur() != null) {
+			avisDTO.setNomModerateur(avis.getModerateur().getPseudo());
+		}
 		avisDTO.setNote(avis.getNote());
 		avisDTO.setPseudoJoueur(avis.getJoueur().getPseudo());
 
