@@ -16,4 +16,6 @@ public interface IAvisService {
 
 	public List<AvisDTO> getAvisDTOs();
 	
+	public AvisDTO getAvisDTO(Long id);
+	
 }
