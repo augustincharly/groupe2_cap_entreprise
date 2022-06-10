@@ -72,13 +72,13 @@ public class InitController {
 	public ModelAndView getHomePage() {
 
 		Classification classification1 = new Classification();
-		classification1.setNom("PEGI 6");
+		classification1.setNom("PEGI 3");
 		classificationService.save(classification1);
 		Classification classification2 = new Classification();
-		classification2.setNom("PEGI 12");
+		classification2.setNom("PEGI 7");
 		classificationService.save(classification2);
 		Classification classification3 = new Classification();
-		classification3.setNom("PEGI 16");
+		classification3.setNom("PEGI 12");
 		classificationService.save(classification3);
 		Classification classification4 = new Classification();
 		classification4.setNom("PEGI 16");
@@ -91,10 +91,10 @@ public class InitController {
 		editeur1.setNom("UBISOFT");
 		editeurService.save(editeur1);
 		Editeur editeur2 = new Editeur();
-		editeur2.setNom("EA");
+		editeur2.setNom("Nintendo");
 		editeurService.save(editeur2);
 		Editeur editeur3 = new Editeur();
-		editeur3.setNom("FROMSOFTWARE");
+		editeur3.setNom("FromSoftware");
 		editeurService.save(editeur3);
 		Editeur editeur4 = new Editeur();
 		editeur4.setNom("Electronics Arts");
@@ -110,13 +110,13 @@ public class InitController {
 		editeurService.save(editeur7);
 
 		Genre genre1 = new Genre();
-		genre1.setNom("horreur");
+		genre1.setNom("action");
 		genreService.save(genre1);
 		Genre genre2 = new Genre();
-		genre2.setNom("course");
+		genre2.setNom("aventure");
 		genreService.save(genre2);
 		Genre genre3 = new Genre();
-		genre3.setNom("FPS");
+		genre3.setNom("action-aventure");
 		genreService.save(genre3);
 		Genre genre4 = new Genre();
 		genre4.setNom("jeu de rôle");
@@ -152,10 +152,10 @@ public class InitController {
 		plateforme1.setNom("PC");
 		plateformeService.save(plateforme1);
 		Plateforme plateforme2 = new Plateforme();
-		plateforme2.setNom("PlayStation 5");
+		plateforme2.setNom("PlayStation 4");
 		plateformeService.save(plateforme2);
 		Plateforme plateforme3 = new Plateforme();
-		plateforme3.setNom("Xbox series X/S");
+		plateforme3.setNom("Playstation 5");
 		plateformeService.save(plateforme3);
 		Plateforme plateforme4 = new Plateforme();
 		plateforme4.setNom("Xbox One/One x");
@@ -188,24 +188,26 @@ public class InitController {
 		jeu1.setImage("https://image.api.playstation.com/vulcan/ap/rnd/202107/1612/Y5RHNmzAtc6sRYwZlYiKHAxN.png");
 		jeu1.addPlateformes(plateforme1);
 		jeu1.addPlateformes(plateforme3);
-		jeu1.addPlateformes(plateforme2);
-		modeleEconomique1.addJeu(jeu1);
-		editeur1.addJeu(jeu1);
-		genre1.addJeu(jeu1);
-		classification1.addJeu(jeu1);
+		jeu1.addPlateformes(plateforme5);
+		jeu1.setDateDeSortie(LocalDate.now().minusMonths(1));
+		modeleEconomique2.addJeu(jeu1);
+		editeur3.addJeu(jeu1);
+		genre3.addJeu(jeu1);
+		classification5.addJeu(jeu1);
 		jeuService.save(jeu1);
 
 		Jeu jeu2 = new Jeu();
-		jeu2.setNom("PacMan");
+		jeu2.setNom("Pacman");
 		jeu2.setDescription("...");
 		jeu2.setImage(
 				"https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/games_15/nes_5/H2x1_NES_PacMan_image1600w.jpg");
 		jeu2.addPlateformes(plateforme1);
-		jeu2.addPlateformes(plateforme2);
+		jeu2.addPlateformes(plateforme6);
+		jeu2.setDateDeSortie(LocalDate.now().minusMonths(1));
 		modeleEconomique2.addJeu(jeu2);
 		editeur2.addJeu(jeu2);
 		genre2.addJeu(jeu2);
-		classification2.addJeu(jeu2);
+		classification1.addJeu(jeu2);
 		jeuService.save(jeu2);
 		
 		Avis avis1=new Avis();
