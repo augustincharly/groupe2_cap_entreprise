@@ -1,6 +1,7 @@
 package com.humanbooster.groupe2_cap_entreprise.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class AvisDTO {
 
@@ -8,9 +9,11 @@ public class AvisDTO {
 	private LocalDateTime dateEnvoi;
 	private String nomJeu;
 	private String pseudoJoueur;
+	private String description;
 	private float note;
 	private String image;
 	private String nomModerateur;
+	private ArrayList<String> plateformes;
 
 	public AvisDTO() {
 	}
@@ -21,6 +24,22 @@ public class AvisDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public ArrayList<String> getPlateformes() {
+		return plateformes;
+	}
+
+	public void setPlateformes(ArrayList<String> plateformes) {
+		this.plateformes = plateformes;
 	}
 
 	public LocalDateTime getDateEnvoi() {
