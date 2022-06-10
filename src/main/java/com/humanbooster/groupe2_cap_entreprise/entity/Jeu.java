@@ -67,7 +67,7 @@ public class Jeu {
 	private Classification classification;
 	
 	@OneToMany(mappedBy = "jeu", cascade =  CascadeType.ALL, orphanRemoval = true) 
-	private List<Avis> avis;
+	private List<Avis> avis = new ArrayList<>();
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "moderateur_id")
