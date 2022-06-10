@@ -7,6 +7,6 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Genre;
 @Component
 public interface IGenreService {
 
-	void save(Genre genre1);
+	public void save(Genre genre1);
 
 }

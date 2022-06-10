@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Liste des avis</title>
+</head>
+<body>
+	<h2>LISTE DES AVIS</h2>
+	<table border="true" style="border-collapse: collapse">
+		<thead>
+			<th>Date d'envoi</th>
+			<th>Nom du Jeu</th>
+			<th>Pseudo du joueur</th>
+			<th>Note</th>
+			<th>Image</th>
+			<th>Statut</th>
+			<th>Opérations</th>
+		</thead>
+		<tbody>
+			<tr th:each="avis: ${list_avis}">
+				<td style="padding: 5px"><span th:text="${#temporals.format(avis.dateEnvoi, 'dd/MM/yyyy HH:mm')}" /></td>
+				<td style="padding: 5px"><span th:text="${avis.nomJeu}" /></td>
+				<td style="padding: 5px"><span th:text="${avis.pseudoJoueur}" /></td>
+				<td style="padding: 5px"><span th:text="${avis.note}" /></td>
+				<td style="padding: 5px"><img style="width: 100px"
+					th:src="${avis.image}" /></td>
+				<td style="padding: 5px" th:if="${avis.nomModerateur == null}">A modérer</td>
+				<td style="padding: 5px" th:if="${avis.nomModerateur != null}">Modéré par <span th:text="${avis.nomModerateur}"></span></td>
+				<td style="padding: 5px"><a th:href="@{/avis/{id}(id=${avis.id})}">Voir</a></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="#" style="margin-right: 300px">Ajouter un avis</a>
+	<a href="#">Déconnexion</a>
+</body>
+</html>

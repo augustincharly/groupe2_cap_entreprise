@@ -7,6 +7,6 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Moderateur;
 @Component
 public interface IModerateurService {
 
-	void save(Moderateur moderateur);
+	public void save(Moderateur moderateur);
 
 }

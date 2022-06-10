@@ -7,6 +7,6 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Editeur;
 @Component
 public interface IEditeurService {
 
-	void save(Editeur editeur1);
+	public void save(Editeur editeur1);
 
 }

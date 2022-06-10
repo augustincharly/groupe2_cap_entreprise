@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +11,11 @@ import org.springframework.stereotype.Service;
 import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Avis;
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
+
 import com.humanbooster.groupe2_cap_entreprise.repository.AvisRepository;
 import com.humanbooster.groupe2_cap_entreprise.transformer.TransformerFactory;
 
 @Service
-@Transactional
 public class AvisService implements IAvisService{
 	
 	@Autowired
@@ -31,10 +30,12 @@ public class AvisService implements IAvisService{
 
 	public List<AvisDTO> getAvisDTOs() {
 		List<AvisDTO> avisDTOs = new ArrayList<AvisDTO>();
+
 		avisRepository.findAll().forEach(avis -> {
 			AvisDTO avisDTO = TransformerFactory.getAvisTransformer().transform(avis);
 			avisDTOs.add(avisDTO);
 		});
+
 		return avisDTOs;
 	}
 
@@ -49,4 +50,11 @@ public class AvisService implements IAvisService{
 		avisRepository.save(avis);
 		
 	}
+
+	public AvisDTO getAvisDTO(Long id) {
+		Avis avisEntity = avisRepository.findById(id).get();
+		return TransformerFactory.getAvisTransformer().transform(avisEntity, true);
+
+	}
+
 }
