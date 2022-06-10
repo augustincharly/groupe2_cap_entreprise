@@ -32,4 +32,11 @@ public class AvisService implements IAvisService {
 		return avisDTOs;
 	}
 
+	@Override
+	public AvisDTO getAvisDTO(Long id) {
+		Avis avisEntity = avisRepository.findById(id).get();
+		return TransformerFactory.getAvisTransformer().transform(avisEntity, true);
+
+	}
+
 }
