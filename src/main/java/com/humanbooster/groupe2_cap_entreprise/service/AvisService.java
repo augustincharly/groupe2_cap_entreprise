@@ -23,10 +23,12 @@ public class AvisService implements IAvisService {
 
 	public List<AvisDTO> getAvisDTOs() {
 		List<AvisDTO> avisDTOs = new ArrayList<AvisDTO>();
+
 		avisRepository.findAll().forEach(avis -> {
 			AvisDTO avisDTO = TransformerFactory.getAvisTransformer().transform(avis);
 			avisDTOs.add(avisDTO);
 		});
+
 		return avisDTOs;
 	}
 

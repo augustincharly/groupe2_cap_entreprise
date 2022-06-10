@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class AvisDTO {
 
+	private Long id;
 	private LocalDateTime dateEnvoi;
 	private String nomJeu;
 	private String pseudoJoueur;
@@ -12,6 +13,14 @@ public class AvisDTO {
 	private String nomModerateur;
 
 	public AvisDTO() {
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public LocalDateTime getDateEnvoi() {

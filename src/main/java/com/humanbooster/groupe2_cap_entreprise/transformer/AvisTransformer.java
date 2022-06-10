@@ -10,6 +10,8 @@ public class AvisTransformer {
 
 	public AvisDTO transform(Avis avis) {
 		AvisDTO avisDTO = new AvisDTO();
+
+		avisDTO.setId(avis.getId());
 		avisDTO.setDateEnvoi(avis.getDateEnvoi());
 		avisDTO.setImage(avis.getJeu().getImage());
 		avisDTO.setNomJeu(avis.getJeu().getNom());

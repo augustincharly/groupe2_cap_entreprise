@@ -1,8 +1,5 @@
 package com.humanbooster.groupe2_cap_entreprise.controller;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +20,10 @@ public class AvisController {
 
 	@GetMapping
 	public String getAvis(Model model) {
-		// List<AvisDTO> avisDTOs = avisService.getAvisDTOs();
 		List<AvisDTO> avisDTOs = avisService.getAvisDTOs();
-		
+
 		model.addAttribute("list_avis", avisDTOs);
+		
 		return "avisListe";
 	}
 
