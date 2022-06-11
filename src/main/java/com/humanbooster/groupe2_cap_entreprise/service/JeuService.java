@@ -49,6 +49,13 @@ public class JeuService implements IJeuService {
 		return jeu;
 	}
 
+	@Override
+	public JeuDTO getJeuDTO(Long id) {
+		Jeu jeuEntity = jeuRepository.findById(id).get();
 
+		JeuDTO jeuDTO = TransformerFactory.getJeuTransformer().transform(jeuEntity);
+
+		return jeuDTO;
+	}
 
 }
