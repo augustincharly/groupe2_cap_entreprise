@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Details d'un avis</title>
+<style>
+body {
+	padding: 20px;
+	height: 85%;
+}
+
+html {
+	height: 100%;
+}
+
+.container {
+	height: 100%;
+	display: flex;
+	width: 800px;
+	margin: auto;
+	justify-content: space-around;
+	align-items: center;
+	display: flex;
+}
+
+.button {
+	border: 1px solid blue;
+	color: blue;
+	padding: 10px;
+	border-radius: 0.5px;
+	text-decoration: none;
+}
+
+.button:hover{
+	background-color: rgb(210, 210, 210);
+}
+
+img {
+	width: 300px;
+}
+
+.labels div {
+	margin-bottom: 15px;
+}
+</style>
+</head>
+
+<body>
+	<div>
+		<a class="button" th:href="@{/jeu}">retour à la liste</a>
+	</div>
+	<div class="container">
+
+		<div class="labels">
+			<div>Nom du jeu</div>
+			<div>Editeur</div>
+			<div>Date de sortie</div>
+			<div>Description</div>
+			<div>Genre</div>
+			<div>Classification</div>
+			<div>Plateforme(s)</div>
+			<div>Modèle économique</div>
+		</div>
+
+
+		<div class="labels">
+			<div>
+				<span th:text="${jeu.nom}"></span>
+			</div>
+			<div>
+				<span th:text="${jeu.editeur}"></span>
+			</div>
+			<div>
+				<span th:text="${#temporals.format(jeu.dateDeSortie, 'dd/MM/yyyy')}"></span>
+			</div>
+			<div>
+				<span th:text="${jeu.description}"></span>
+			</div>
+			<div>
+				<span th:text="${jeu.genre}"></span>
+			</div>
+			<div>
+				<span th:text="${jeu.classification}"></span>
+			</div>
+			<div>
+				<span th:each="plateforme: ${jeu.plateformes}"> <span
+					th:text="${plateforme}"></span>
+				</span>
+			</div>
+			<div>
+				<span th:text="${jeu.modeleEconomique}"></span>
+			</div>
+
+
+
+		</div>
+		<div>
+			<img alt="image du jeu" th:src="${jeu.image}" />
+		</div>
+	</div>
+
+
+
+
+</body>
+</html>

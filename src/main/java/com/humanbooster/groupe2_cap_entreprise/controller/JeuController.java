@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
@@ -25,6 +26,15 @@ public class JeuController {
 		model.addAttribute("jeux", jeux);
 
 		return "jeuxListe";
+	}
+
+	@GetMapping("{id}")
+	public String getJeu(@PathVariable(name = "id") Long id, Model model) {
+		JeuDTO jeu = jeuService.getJeuDTO(id);
+
+		model.addAttribute("jeu", jeu);
+
+		return "jeuDetails";
 	}
 
 }
