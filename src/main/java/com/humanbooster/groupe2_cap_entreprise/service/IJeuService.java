@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
 
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
+import com.humanbooster.groupe2_cap_entreprise.formwrapper.CreateJeuFormWrapper;
 
 @Component
 public interface IJeuService {
@@ -22,5 +23,7 @@ public interface IJeuService {
 	public void delete(Long id);
 
 	public List<JeuDTO> getJeux();
+
+	public void save(CreateJeuFormWrapper createjeu);
 
 }
