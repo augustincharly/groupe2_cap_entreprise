@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Classification;
 import com.humanbooster.groupe2_cap_entreprise.entity.Editeur;
@@ -22,6 +23,7 @@ import com.humanbooster.groupe2_cap_entreprise.formwrapper.CreateJeuFormWrapper;
 import com.humanbooster.groupe2_cap_entreprise.service.IClassificationService;
 import com.humanbooster.groupe2_cap_entreprise.service.IEditeurService;
 import com.humanbooster.groupe2_cap_entreprise.service.IGenreService;
+import com.humanbooster.groupe2_cap_entreprise.service.IAvisService;
 import com.humanbooster.groupe2_cap_entreprise.service.IJeuService;
 import com.humanbooster.groupe2_cap_entreprise.service.IModeleEconomiqueService;
 import com.humanbooster.groupe2_cap_entreprise.service.IPlateformeService;
@@ -47,6 +49,17 @@ public class ModerateurController {
 	
 	@Autowired
 	private IPlateformeService plateformeService;
+	private IAvisService avisService;
+
+	@GetMapping("avis")
+	public String getAvis(Model model) {
+		List<AvisDTO> avisDTOs = avisService.getAvisDTOs();
+
+		model.addAttribute("list_avis", avisDTOs);
+
+		return "moderateur/avisListe";
+	}
+
 
 	@GetMapping("jeu")
 	public String getJeux(Model model) {
