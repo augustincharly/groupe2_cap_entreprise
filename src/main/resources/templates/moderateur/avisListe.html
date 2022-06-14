@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Liste des avis</title>
+
+<style>
+.placeholder {
+	height: 250px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+td, th {
+	padding: 7px 15px !important;
+}
+</style>
+</head>
+<body>
+	<h2>LISTE DES AVIS</h2>
+
+
+	<div class="placeholder" th:if="${list_avis.size() == 0}">pas
+		d'avis à afficher</div>
+	<table border="true" style="border-collapse: collapse"
+		th:if="${list_avis.size() != 0}">
+		<thead>
+			<th>Joueur</th>
+			<th>Jeu</th>
+			<th>Description</th>
+			<th>Note</th>
+			<th>Modérer</th>
+			<th>Statut</th>
+		</thead>
+		<tbody>
+			<tr th:each="avis: ${list_avis}">
+				<td style="padding: 5px"><span th:text="${avis.pseudoJoueur}" /></td>
+				<td style="padding: 5px"><span th:text="${avis.nomJeu}" /></td>
+				<td style="padding: 5px"><span th:text="${avis.description}" /></td>
+				<td style="padding: 5px"><span th:text="${avis.note}" /></td>
+				<td style="padding: 5px" th:if="${avis.nomModerateur == null}"><a
+					th:href="@{/moderateur/avis/{id}(id=${avis.id})}">modérer</a></td>
+					<td style="padding: 5px" th:if="${avis.nomModerateur != null}"> - </td>
+				<td style="padding: 5px" th:if="${avis.nomModerateur == null}">à
+					voir</td>
+				<td style="padding: 5px" th:if="${avis.nomModerateur != null}">validé</td>
+
+			</tr>
+		</tbody>
+	</table>
+
+
+</body>
+</html>
