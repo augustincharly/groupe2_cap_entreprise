@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
+import com.humanbooster.groupe2_cap_entreprise.service.IAvisService;
 import com.humanbooster.groupe2_cap_entreprise.service.IJeuService;
 
 @Controller
@@ -19,6 +21,19 @@ public class ModerateurController {
 
 	@Autowired
 	IJeuService jeuService;
+	
+	@Autowired
+	private IAvisService avisService;
+
+	@GetMapping("avis")
+	public String getAvis(Model model) {
+		List<AvisDTO> avisDTOs = avisService.getAvisDTOs();
+
+		model.addAttribute("list_avis", avisDTOs);
+
+		return "moderateur/avisListe";
+	}
+
 
 	@GetMapping("jeu")
 	public String getJeux(Model model) {
