@@ -14,35 +14,35 @@ import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
 import com.humanbooster.groupe2_cap_entreprise.service.IJeuService;
 
 @Controller
-@RequestMapping("jeu")
-public class JeuController {
+@RequestMapping("moderateur")
+public class ModerateurController {
 
 	@Autowired
 	IJeuService jeuService;
 
-	@GetMapping
+	@GetMapping("jeu")
 	public String getJeux(Model model) {
 		List<JeuDTO> jeux = jeuService.getJeux();
 
 		model.addAttribute("jeux", jeux);
 
-		return "jeuxListe";
+		return "moderateur/jeuxListe";
 	}
 
-	@GetMapping("{id}")
+	@GetMapping("jeu/{id}")
 	public String getJeu(@PathVariable(name = "id") Long id, Model model) {
 		JeuDTO jeu = jeuService.getJeuDTO(id);
 
 		model.addAttribute("jeu", jeu);
 
-		return "jeuDetails";
+		return "moderateur/jeuDetails";
 	}
 
-	@GetMapping("{id}/delete")
+	@GetMapping("jeu/{id}/delete")
 	public ModelAndView delete(@PathVariable(name = "id") Long id) {
 
 		jeuService.delete(id);
-		return new ModelAndView("redirect:/jeu");
+		return new ModelAndView("redirect:/moderateur/jeu");
 	}
-
+	
 }
