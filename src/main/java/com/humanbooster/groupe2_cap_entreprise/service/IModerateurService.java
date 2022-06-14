@@ -8,5 +8,7 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Moderateur;
 public interface IModerateurService {
 
 	public void save(Moderateur moderateur);
+	
+	public Moderateur getModerateur(Long id);
 
 }

@@ -14,6 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
+import com.humanbooster.groupe2_cap_entreprise.entity.Avis;
+import com.humanbooster.groupe2_cap_entreprise.entity.Moderateur;
+import com.humanbooster.groupe2_cap_entreprise.repository.AvisRepository;
+import com.humanbooster.groupe2_cap_entreprise.service.IModerateurService;
 import com.humanbooster.groupe2_cap_entreprise.entity.Classification;
 import com.humanbooster.groupe2_cap_entreprise.entity.Editeur;
 import com.humanbooster.groupe2_cap_entreprise.entity.Genre;
@@ -28,13 +32,14 @@ import com.humanbooster.groupe2_cap_entreprise.service.IJeuService;
 import com.humanbooster.groupe2_cap_entreprise.service.IModeleEconomiqueService;
 import com.humanbooster.groupe2_cap_entreprise.service.IPlateformeService;
 
+
 @Controller
 @RequestMapping("moderateur")
 public class ModerateurController {
 
 	@Autowired
-	IJeuService jeuService;
-	
+	private IJeuService jeuService;
+
 	@Autowired
 	private IEditeurService editeurService;
 	
@@ -51,6 +56,9 @@ public class ModerateurController {
 	private IPlateformeService plateformeService;
 	private IAvisService avisService;
 
+	@Autowired
+	private IModerateurService moderateurService;
+
 	@GetMapping("avis")
 	public String getAvis(Model model) {
 		List<AvisDTO> avisDTOs = avisService.getAvisDTOs();
@@ -60,6 +68,29 @@ public class ModerateurController {
 		return "moderateur/avisListe";
 	}
 
+	@GetMapping("avis/{id}")
+	public String getAvis(@PathVariable(name = "id") Long id, Model model) {
+		AvisDTO avis = avisService.getAvisDTO(id);
+
+		model.addAttribute("avis", avis);
+
+		return "moderateur/avisDetails";
+	}
+
+	@GetMapping("avis/{id}/delete")
+	public ModelAndView deleteAvis(@PathVariable(name = "id") Long id) {
+
+		avisService.delete(id);
+		return new ModelAndView("redirect:/moderateur/avis");
+	}
+
+	@GetMapping("avis/{id}/validate")
+	public ModelAndView validateAvis(@PathVariable(name = "id") Long id) {
+		Avis avis = avisService.getAvis(id);
+		Moderateur moderateur = moderateurService.getModerateur(4l);
+		avisService.validateAvis(avis, moderateur);
+		return new ModelAndView("redirect:/moderateur/avis");
+	}
 
 	@GetMapping("jeu")
 	public String getJeux(Model model) {
@@ -80,11 +111,12 @@ public class ModerateurController {
 	}
 
 	@GetMapping("jeu/{id}/delete")
-	public ModelAndView delete(@PathVariable(name = "id") Long id) {
+	public ModelAndView deleteJeu(@PathVariable(name = "id") Long id) {
 
 		jeuService.delete(id);
 		return new ModelAndView("redirect:/moderateur/jeu");
 	}
+
 	
 	@GetMapping("jeu/new")
 	public String getCreateJeu(Model model) {

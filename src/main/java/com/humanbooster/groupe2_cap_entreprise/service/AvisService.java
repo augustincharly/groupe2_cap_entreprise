@@ -4,23 +4,22 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Avis;
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
-
+import com.humanbooster.groupe2_cap_entreprise.entity.Moderateur;
 import com.humanbooster.groupe2_cap_entreprise.repository.AvisRepository;
 import com.humanbooster.groupe2_cap_entreprise.transformer.TransformerFactory;
 
 @Service
-public class AvisService implements IAvisService{
-	
+public class AvisService implements IAvisService {
+
 	@Autowired
 	private AvisRepository avisRepository;
-	
+
 	@Autowired
 	private JoueurService joueurService;
 
@@ -46,9 +45,9 @@ public class AvisService implements IAvisService{
 		avis.setNote(avis_note);
 		avis.setJeu(jeu);
 		avis.setDateEnvoi(LocalDateTime.now());
-		avis.setJoueur(joueurService.getJoueurById(2));		
+		avis.setJoueur(joueurService.getJoueurById(2));
 		avisRepository.save(avis);
-		
+
 	}
 
 	public AvisDTO getAvisDTO(Long id) {
@@ -60,7 +59,24 @@ public class AvisService implements IAvisService{
 	@Override
 	public void saveNewAvis(Avis avis) {
 		avisRepository.save(avis);
-		
+
+	}
+
+	@Override
+	public void validateAvis(Avis avis, Moderateur moderateur) {
+		avis.setDateModeration(LocalDateTime.now());
+		avis.setModerateur(moderateur);
+		avisRepository.save(avis);
+	}
+
+	@Override
+	public void delete(Long id) {
+		avisRepository.deleteById(id);
+	}
+
+	@Override
+	public Avis getAvis(Long id) {
+		return avisRepository.findById(id).get();
 	}
 
 }
