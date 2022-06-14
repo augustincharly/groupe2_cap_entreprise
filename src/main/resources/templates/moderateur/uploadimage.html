@@ -9,11 +9,13 @@
     <div >
         <div >
             <div >
+                <h2>Téléversement d'image du jeu</h2>
                 <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
                 <form method="post" th:action="@{/moderateur/jeu/{id}/uploadimage(id=${jeu.id})}" enctype="multipart/form-data">
                     <div class="form-group">
                         <input type="file" name="file">
                     </div>
+                    <button type="submit" >soumettre</button>
                 </form>
             </div>
         </div>
