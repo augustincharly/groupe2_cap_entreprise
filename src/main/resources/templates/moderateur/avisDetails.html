@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Avis à modérer</title>
+<style>
+body {
+	padding: 20px;
+	height: 85%;
+}
+
+html {
+	height: 100%;
+}
+
+.container {
+	height: 40%;
+	display: flex;
+	width: 800px;
+	margin: auto;
+	justify-content: space-around;
+	align-items: center;
+	display: flex;
+}
+
+.button {
+	padding: 10px;
+	border-radius: 3px;
+	text-decoration: none;
+}
+
+.button:hover {
+	color: white;
+}
+
+.success {
+	border: 1px solid green;
+	color: green;
+}
+
+.success:hover {
+	background-color: green;
+}
+
+.default {
+	border: 1px solid blue;
+	color: blue;
+}
+
+.default:hover {
+	background-color: blue;
+}
+
+.danger {
+	border: 1px solid red;
+	color: red;
+}
+
+.danger:hover {
+	background-color: red;
+}
+
+.center {
+	margin: auto;
+	text-align: center;
+}
+
+img {
+	width: 300px;
+}
+
+.labels div {
+	margin-bottom: 15px;
+}
+</style>
+</head>
+
+<body>
+
+	<div class="container">
+
+
+
+		<div style="border-bottom: 3px solid black; padding-bottom: 10px">
+			<span th:text="${avis.pseudoJoueur}"></span>
+		</div>
+		<div>
+			<span th:text="${avis.nomJeu}"></span>
+		</div>
+		<div>
+			<span th:text="${avis.description}"></span>
+		</div>
+		<div>
+			<span th:text="${avis.note}">
+		</div>
+
+
+
+
+	</div>
+
+	<div class="container">
+		<a class="button success"
+			th:href="@{/moderateur/avis/{id}/validate(id=${avis.id})}">valider</a>
+		<a class="button danger"
+			th:href="@{/moderateur/avis/{id}/delete(id=${avis.id})}">supprimer</a>
+	</div>
+	<div class="center">
+		<a class="button default center" th:href="@{/moderateur/avis}">précédent</a>
+	</div>
+
+
+</body>
+</html>
