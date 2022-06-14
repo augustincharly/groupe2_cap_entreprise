@@ -16,21 +16,21 @@
 		<tbody>
 			<tr th:each="jeu: ${jeux}">
 				<td style="padding: 5px"><img style="width: 100px"
-					th:src="${jeu.image}" /></td>
+					th:src="@{${jeu.image}}" /></td>
 				<td style="padding: 5px"><span th:text="${jeu.nom}" /></td>
 				<td style="padding: 5px"><span th:text="${jeu.editeur}" /></td>
 			
 				<td style="padding: 5px">
 				<a th:href="@{/moderateur/jeu/{id}(id=${jeu.id})}">Voir</a>
 				<a th:href="@{/moderateur/jeu/{id}/update(id=${jeu.id})}">Modifier</a>
-				<a href="#">Téléverser l'image</a>
+				<a th:href="@{/moderateur/jeu/{id}/uploadimage(id=${jeu.id})}">Téléverser l'image</a>
 				<a th:href="@{/moderateur/jeu/{id}/delete(id=${jeu.id})}">Supprimer</a>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 
-	<a href="#" style="margin-right: 50px">Ajouter un jeu</a>
+	<a th:href="@{/moderateur/jeu/new}" style="margin-right: 50px">Ajouter un jeu</a>
 	<a href="#">Liste des avis</a>
 </body>
 </html>
