@@ -69,6 +69,7 @@ public class ModerateurController {
 	
 	@Autowired
 	private IPlateformeService plateformeService;
+	@Autowired
 	private IAvisService avisService;
 
 	@Autowired
