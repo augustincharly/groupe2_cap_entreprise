@@ -1,5 +1,7 @@
 package com.humanbooster.groupe2_cap_entreprise.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,16 @@ public class GenreService implements IGenreService{
 	@Override
 	public void save(Genre genre) {
 		genreRepository.save(genre);
+	}
+
+	@Override
+	public List<Genre> getAllGenres() {
+		return genreRepository.findAll();
+	}
+
+	@Override
+	public Genre findGenreById(Long editeur_id) {
+		return genreRepository.findById(editeur_id).get();
 	}
 
 }
