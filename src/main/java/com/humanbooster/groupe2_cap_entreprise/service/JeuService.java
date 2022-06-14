@@ -58,4 +58,11 @@ public class JeuService implements IJeuService {
 		return jeuDTO;
 	}
 
+	@Override
+	public void delete(Long id) {
+		jeuRepository.deleteById(id);
+	}
+	
+	
+
 }

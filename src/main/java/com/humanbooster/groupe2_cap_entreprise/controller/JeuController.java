@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
 import com.humanbooster.groupe2_cap_entreprise.service.IJeuService;
@@ -35,6 +36,13 @@ public class JeuController {
 		model.addAttribute("jeu", jeu);
 
 		return "jeuDetails";
+	}
+
+	@GetMapping("{id}/delete")
+	public ModelAndView delete(@PathVariable(name = "id") Long id) {
+
+		jeuService.delete(id);
+		return new ModelAndView("redirect:/jeu");
 	}
 
 }
