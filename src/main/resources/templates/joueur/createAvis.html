@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h1>Ajout d'un avis</h1>
-	<form method="post" th:action="@{/avis/new}" th:object="${jeux_avis}">
+	<form method="post" th:action="@{/joueur/avis/new}" th:object="${jeux_avis}">
 		<div style="display:flex">
 		<label style="display:block;width:100px" for="jeu-select">Jeu:</label>
 		<select  id="jeu-select" th:field="*{jeu_id}">

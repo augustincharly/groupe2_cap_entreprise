@@ -41,12 +41,12 @@
 					th:src="${avis.image}" /></td>
 				<td style="padding: 5px" th:if="${avis.nomModerateur == null}">A modérer</td>
 				<td style="padding: 5px" th:if="${avis.nomModerateur != null}">Modéré par <span th:text="${avis.nomModerateur}"></span></td>
-				<td style="padding: 5px"><a th:href="@{/avis/{id}(id=${avis.id})}">Voir</a></td>
+				<td style="padding: 5px"><a th:href="@{/joueur/avis/{id}(id=${avis.id})}">Voir</a></td>
 			</tr>
 		</tbody>
 	</table>
 
-	<a th:href="@{/avis/new}" style="margin-right: 300px">Ajouter un avis</a>
+	<a th:href="@{/joueur/avis/new}" style="margin-right: 300px">Ajouter un avis</a>
 	<a href="#">Déconnexion</a>
 </body>
 </html>
