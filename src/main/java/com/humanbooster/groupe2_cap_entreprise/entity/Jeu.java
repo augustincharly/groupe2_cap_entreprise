@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "jeu")
 public class Jeu {
@@ -39,6 +41,7 @@ public class Jeu {
 	
 	@Past
 	@Column(name = "dateDeSortie")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateDeSortie;
 	
 	@Column(name = "image")
