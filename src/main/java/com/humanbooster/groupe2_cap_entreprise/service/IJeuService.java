@@ -19,6 +19,8 @@ public interface IJeuService {
 
 	public void save(Jeu jeu);
 
+	public void delete(Long id);
+
 	public List<JeuDTO> getJeux();
 
 }
