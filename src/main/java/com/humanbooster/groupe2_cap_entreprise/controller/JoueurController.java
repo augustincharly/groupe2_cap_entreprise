@@ -41,7 +41,7 @@ public class JoueurController {
 		String thispseudojoueur = authentication.getName().toString();
 		Pageable pagination = PageRequest.of(id, EnvironmentVariable.ITEMS_PER_PAGE);
 		List<AvisDTO> avisDTOs = avisService.getAvisDTOsWithPagination(thispseudojoueur, pagination);	
-		Integer nombreDePages = avisService.getAvisPageDTOsWithPagination(thispseudojoueur, pagination).getSize();
+		Integer nombreDePages = avisService.getAvisPageDTOsWithPagination(thispseudojoueur, pagination).getTotalPages();
 		model.addAttribute("nombreDePages", nombreDePages);
 		model.addAttribute("id", id);
 		model.addAttribute("list_avis", avisDTOs);
@@ -68,7 +68,7 @@ public class JoueurController {
 	public ModelAndView postCreateAvis(@ModelAttribute AvisJeuFormWrapper avisjeu) {
 		Jeu jeu = jeuService.getJeuByID(avisjeu.getJeu_id());
 		avisService.saveNewAvis(avisjeu.getAvis_description(), avisjeu.getAvis_note(),jeu);
-		return new ModelAndView("redirect:/joueur/avis");
+		return new ModelAndView("redirect:/joueur/avis/page/0");
 	}
 
 

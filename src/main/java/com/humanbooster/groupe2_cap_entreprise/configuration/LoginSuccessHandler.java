@@ -26,10 +26,10 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
     	 String redirectURL = request.getContextPath();
 
        if(role.contains("ROLE_JOUEUR")) {
-    	   redirectURL = "/joueur/avis";
+    	   redirectURL = "/joueur/avis/page/0";
     	   System.out.println("Role joueur reconnu");
        }else if(role.contains("ROLE_MODERATEUR")) {
-    	   redirectURL = "/moderateur/avis";
+    	   redirectURL = "/moderateur/avis/page/0";
     	   System.out.println("Role moderateur reconnu");
        }
        System.out.println("Role non reconnu");
