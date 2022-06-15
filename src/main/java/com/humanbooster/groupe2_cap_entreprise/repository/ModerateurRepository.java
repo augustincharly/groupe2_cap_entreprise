@@ -8,4 +8,6 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Moderateur;
 @Repository
 public interface ModerateurRepository extends JpaRepository<Moderateur, Long> {
 
+	Moderateur findByPseudo(String pseudo);
+
 }
