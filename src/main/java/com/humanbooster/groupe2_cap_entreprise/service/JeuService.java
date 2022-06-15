@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
-import com.humanbooster.groupe2_cap_entreprise.formwrapper.CreateJeuFormWrapper;
+import com.humanbooster.groupe2_cap_entreprise.formwrapper.JeuFormWrapper;
 import com.humanbooster.groupe2_cap_entreprise.repository.JeuRepository;
 import com.humanbooster.groupe2_cap_entreprise.transformer.TransformerFactory;
 
@@ -80,7 +80,7 @@ public class JeuService implements IJeuService {
 	}
 
 	@Override
-	public void save(CreateJeuFormWrapper createjeu) {
+	public void save(JeuFormWrapper createjeu) {
 		Jeu jeu = new Jeu();
 		jeu.setNom(createjeu.getJeu_nom());
 		jeu.setDateDeSortie(createjeu.getDateDeSortie());
