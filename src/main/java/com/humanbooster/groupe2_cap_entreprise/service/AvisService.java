@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -81,6 +83,21 @@ public class AvisService implements IAvisService {
 	@Override
 	public Avis getAvis(Long id) {
 		return avisRepository.findById(id).get();
+	}
+	
+	public List<AvisDTO> getAvisDTOsWithPagination(String pseudo, Pageable pagination){
+		List<Avis> avis =  avisRepository.findAll(pseudo, pagination).getContent();
+		List<AvisDTO> avisDTOs = new ArrayList<>();
+		for(Avis aviToAdd : avis) {
+			avisDTOs.add(TransformerFactory.getAvisTransformer().transform(aviToAdd));
+		}
+				
+		return avisDTOs;
+	}
+	
+	public Page<Avis> getAvisPageDTOsWithPagination(String pseudo, Pageable pagination){
+		Page<Avis> avisDTOs =  avisRepository.findAll(pseudo, pagination);
+		return avisDTOs;
 	}
 
 }
