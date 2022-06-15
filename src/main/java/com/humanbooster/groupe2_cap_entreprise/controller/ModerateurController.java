@@ -75,10 +75,13 @@ public class ModerateurController {
 	@Autowired
 	private IModerateurService moderateurService;
 
-	@GetMapping("avis")
-	public String getAvis(Model model) {
-		List<AvisDTO> avisDTOs = avisService.getAvisDTOs();
-
+	@GetMapping("avis/page/{page}")
+	public String getAvis(@PathVariable(name="page")Integer numPage, Model model) {
+		Pageable pagination = PageRequest.of(numPage, EnvironmentVariable.ITEMS_PER_PAGE);
+		List<AvisDTO> avisDTOs = avisService.getAvisDTOsWithPagination(pagination);	
+		Integer nombreDePages = avisService.getAvisPageDTOsWithPagination(pagination).getTotalPages();
+		model.addAttribute("nombreDePages", nombreDePages);
+		model.addAttribute("id", numPage);
 		model.addAttribute("list_avis", avisDTOs);
 
 		return "moderateur/avisListe";
@@ -110,14 +113,11 @@ public class ModerateurController {
 		return new ModelAndView("redirect:/moderateur/avis");
 	}
 
-	@GetMapping("jeu/page/{id}")
-	public String getJeux(@PathVariable(name="id") Integer id, Model model) {
-		Pageable pagination = PageRequest.of(id, EnvironmentVariable.ITEMS_PER_PAGE);
-		List<JeuDTO> jeuxDTOs = jeuService.getJeuDTOsWithPagination(pagination);	
-		Integer nombreDePages = jeuService.getJeuPageDTOsWithPagination(pagination).getTotalPages();
-		model.addAttribute("nombreDePages", nombreDePages);
-		model.addAttribute("id", id);
-		model.addAttribute("jeux", jeuxDTOs);
+	@GetMapping("jeu")
+	public String getJeux(Model model) {
+		List<JeuDTO> jeux = jeuService.getJeux();
+
+		model.addAttribute("jeux", jeux);
 
 		return "moderateur/jeuxListe";
 	}
