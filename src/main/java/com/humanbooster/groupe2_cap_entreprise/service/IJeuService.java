@@ -2,6 +2,8 @@ package com.humanbooster.groupe2_cap_entreprise.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
@@ -25,5 +27,9 @@ public interface IJeuService {
 	public List<JeuDTO> getJeux();
 
 	public void save(JeuFormWrapper createjeu);
+
+	public List<JeuDTO> getJeuDTOsWithPagination(Pageable pagination);
+
+	public Page<Jeu> getJeuPageDTOsWithPagination(Pageable pagination);
 
 }
