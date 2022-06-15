@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.humanbooster.groupe2_cap_entreprise.configuration.EnvironmentVariable;
 import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Avis;
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
@@ -32,14 +35,16 @@ public class JoueurController {
 	@Autowired
 	private IAvisService avisService;
 
-	@GetMapping("avis")
-	public String getAvis(Model model) {
-		List<AvisDTO> avisDTOs = avisService.getAvisDTOs();
+	@GetMapping("avis/page/{id}")
+	public String getAvis(@PathVariable(name="id") Integer id, Model model) {
 		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
 		String thispseudojoueur = authentication.getName().toString();
+		Pageable pagination = PageRequest.of(id, EnvironmentVariable.ITEMS_PER_PAGE);
+		List<AvisDTO> avisDTOs = avisService.getAvisDTOsWithPagination(thispseudojoueur, pagination);	
+		Integer nombreDePages = avisService.getAvisPageDTOsWithPagination(thispseudojoueur, pagination).getSize();
+		model.addAttribute("nombreDePages", nombreDePages);
+		model.addAttribute("id", id);
 		model.addAttribute("list_avis", avisDTOs);
-		model.addAttribute("thispseudojoueur" , thispseudojoueur);
-
 		return "joueur/avisListe";
 	}
 
@@ -75,7 +80,6 @@ public class JoueurController {
 		model.addAttribute("avis", avis);
 
 		return "joueur/avisDetails";
-
 	}
 	
 }
