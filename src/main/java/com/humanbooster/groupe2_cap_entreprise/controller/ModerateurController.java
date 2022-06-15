@@ -100,7 +100,7 @@ public class ModerateurController {
 	public ModelAndView deleteAvis(@PathVariable(name = "id") Long id) {
 
 		avisService.delete(id);
-		return new ModelAndView("redirect:/moderateur/avis");
+		return new ModelAndView("redirect:/moderateur/avis/page/0");
 	}
 
 	@GetMapping("avis/{id}/validate")
@@ -110,7 +110,7 @@ public class ModerateurController {
 		String pseudo = authentication.getName().toString();
 		Moderateur moderateur = moderateurService.getModerateurByPseudo(pseudo);
 		avisService.validateAvis(avis, moderateur);
-		return new ModelAndView("redirect:/moderateur/avis");
+		return new ModelAndView("redirect:/moderateur/avis/page/0");
 	}
 
 	@GetMapping("jeu/page/{id}")
@@ -137,7 +137,7 @@ public class ModerateurController {
 	public ModelAndView deleteJeu(@PathVariable(name = "id") Long id) {
 
 		jeuService.delete(id);
-		return new ModelAndView("redirect:/moderateur/jeu");
+		return new ModelAndView("redirect:/moderateur/jeu/page/0");
 	}
 
 	@GetMapping("jeu/new")
@@ -159,7 +159,7 @@ public class ModerateurController {
 	@PostMapping("jeu/new")
 	public ModelAndView postCreateJeu(@ModelAttribute JeuFormWrapper createjeu) {
 		jeuService.save(createjeu);
-		return new ModelAndView("redirect:/moderateur/jeu");
+		return new ModelAndView("redirect:/moderateur/jeu/page/0");
 	}
 
 	@GetMapping("jeu/{id}/update")
@@ -231,7 +231,7 @@ public class ModerateurController {
 		jeu.setPlateformes(plateformes);
 
 		jeuService.save(jeu);
-		return new ModelAndView("redirect:/moderateur/jeu");
+		return new ModelAndView("redirect:/moderateur/jeu/page/0");
 	}
 
 	@GetMapping("jeu/{id}/uploadimage")
@@ -246,7 +246,7 @@ public class ModerateurController {
 			@PathVariable Long id) {
 		if (file.isEmpty()) {
 			attributes.addFlashAttribute("message", "Please select a file to upload");
-			return new ModelAndView("redirect:/moderateur/jeu");
+			return new ModelAndView("redirect:/moderateur/jeu/page/0");
 		}
 
 		try {
@@ -265,7 +265,7 @@ public class ModerateurController {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/moderateur/jeu");
+		return new ModelAndView("redirect:/moderateur/jeu/page/0");
 	}
 
 }
