@@ -113,12 +113,14 @@ public class ModerateurController {
 		return new ModelAndView("redirect:/moderateur/avis");
 	}
 
-	@GetMapping("jeu")
-	public String getJeux(Model model) {
-		List<JeuDTO> jeux = jeuService.getJeux();
-
-		model.addAttribute("jeux", jeux);
-
+	@GetMapping("jeu/page/{id}")
+	public String getJeux(@PathVariable(name="id") Integer id, Model model) {
+		Pageable pagination = PageRequest.of(id, EnvironmentVariable.ITEMS_PER_PAGE);
+		List<JeuDTO> jeuxDTOs = jeuService.getJeuDTOsWithPagination(pagination);	
+		Integer nombreDePages = jeuService.getJeuPageDTOsWithPagination(pagination).getTotalPages();
+		model.addAttribute("nombreDePages", nombreDePages);
+		model.addAttribute("id", id);
+		model.addAttribute("jeux", jeuxDTOs);
 		return "moderateur/jeuxListe";
 	}
 
