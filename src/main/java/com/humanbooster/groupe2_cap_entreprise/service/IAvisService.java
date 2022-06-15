@@ -19,7 +19,7 @@ public interface IAvisService {
 	public List<AvisDTO> getAvisDTOs();
 
 	public AvisDTO getAvisDTO(Long id);
-	
+
 	public Avis getAvis(Long id);
 
 	public void saveNewAvis(String avis_description, float avis_note, Jeu jeu);
@@ -29,8 +29,13 @@ public interface IAvisService {
 	public void validateAvis(Avis avis, Moderateur moderateur);
 
 	public void delete(Long id);
-	
+
 	public List<AvisDTO> getAvisDTOsWithPagination(String pseudo, Pageable pagination);
 
 	public Page<Avis> getAvisPageDTOsWithPagination(String pseudo, Pageable pagination);
+
+	public List<AvisDTO> getAvisDTOsWithPagination(Pageable pagination);
+
+	public Page<Avis> getAvisPageDTOsWithPagination(Pageable pagination);
+
 }

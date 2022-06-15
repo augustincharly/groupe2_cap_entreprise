@@ -49,7 +49,7 @@ public class AvisService implements IAvisService {
 		avis.setNote(avis_note);
 		avis.setJeu(jeu);
 		avis.setDateEnvoi(LocalDateTime.now());
-		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String pseudo = authentication.getName().toString();
 		avis.setJoueur(joueurService.getJoueurByPseudo(pseudo));
 		avisRepository.save(avis);
@@ -84,19 +84,36 @@ public class AvisService implements IAvisService {
 	public Avis getAvis(Long id) {
 		return avisRepository.findById(id).get();
 	}
-	
-	public List<AvisDTO> getAvisDTOsWithPagination(String pseudo, Pageable pagination){
-		List<Avis> avis =  avisRepository.findAll(pseudo, pagination).getContent();
+
+	public List<AvisDTO> getAvisDTOsWithPagination(String pseudo, Pageable pagination) {
+		List<Avis> avis = avisRepository.findAll(pseudo, pagination).getContent();
 		List<AvisDTO> avisDTOs = new ArrayList<>();
-		for(Avis aviToAdd : avis) {
+		for (Avis aviToAdd : avis) {
 			avisDTOs.add(TransformerFactory.getAvisTransformer().transform(aviToAdd));
 		}
-				
+
 		return avisDTOs;
 	}
-	
-	public Page<Avis> getAvisPageDTOsWithPagination(String pseudo, Pageable pagination){
-		Page<Avis> avisDTOs =  avisRepository.findAll(pseudo, pagination);
+
+	public Page<Avis> getAvisPageDTOsWithPagination(String pseudo, Pageable pagination) {
+		Page<Avis> avisDTOs = avisRepository.findAll(pseudo, pagination);
+		return avisDTOs;
+	}
+
+	@Override
+	public List<AvisDTO> getAvisDTOsWithPagination(Pageable pagination) {
+		List<Avis> avis = avisRepository.findAll(pagination).getContent();
+		List<AvisDTO> avisDTOs = new ArrayList<>();
+		for (Avis aviToAdd : avis) {
+			avisDTOs.add(TransformerFactory.getAvisTransformer().transform(aviToAdd));
+		}
+
+		return avisDTOs;
+	}
+
+	@Override
+	public Page<Avis> getAvisPageDTOsWithPagination(Pageable pagination) {
+		Page<Avis> avisDTOs = avisRepository.findAll(pagination);
 		return avisDTOs;
 	}
 
