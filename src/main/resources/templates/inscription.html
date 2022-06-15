@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Inscription</title>
+</head>
+<body>
+<h2>Formulaire d'inscription</h2>
+
+	<form method="post" th:action="@{/inscription/valide}" th:object="${joueur}">
+		<div style="display:flex">
+		<label style="display:block;width:100px" for="joueur-pseudo">Pseudo :</label>
+		<input type="text" id="joueur-pseudo" placeholder="Indiquer votre pseudo"
+                                      th:field="*{pseudo}" required/>
+         </div>
+         <div style="display:flex">
+		<label style="display:block;width:100px" for="joueur-mail">Email :</label>
+		<input type="email" id="joueur-email" placeholder="Indiquer votre email"
+                                      th:field="*{email}" required/>
+         </div>
+         <div style="display:flex">
+		<label style="display:block;width:100px" for="joueur-motDePasse">Mot de passe :</label>
+		<input type="password" id="joueur-motDePasse" placeholder="Indiquer votre mot de passe"
+                                      th:field="*{motDePasse}" required/>
+         </div>
+         <div style="display:flex">
+		<label style="display:block;width:100px" for="joueur-dateDeNaissance">Date de naissance :</label>
+		<input type="date"  th:field="*{dateDeNaissance}" th:text="${#dates.format(dateDeSortie, 'dd/MM/yyyy')}" required/>
+		</div>
+
+
+		<br>
+		<br>
+		<button type="submit">S'inscrire</button>
+	</form>
+
+
+</body>
+</html>
