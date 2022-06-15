@@ -21,4 +21,8 @@ public class JoueurService implements IJoueurService{
 		return joueurRepository.findById(id).get();
 	}
 
+	public Joueur getJoueurByPseudo(String pseudo) {
+		return joueurRepository.findByPseudo(pseudo);
+	}
+
 }
