@@ -32,7 +32,7 @@
 			<th>Opérations</th>
 		</thead>
 		<tbody>
-			<tr th:each="avis: ${list_avis}">
+			<tr th:each="avis: ${list_avis}" th:if="${avis.pseudoJoueur==thispseudojoueur OR avis.nomModerateur != null}">
 				<td style="padding: 5px"><span th:text="${#temporals.format(avis.dateEnvoi, 'dd/MM/yyyy HH:mm')}" /></td>
 				<td style="padding: 5px"><span th:text="${avis.nomJeu}" /></td>
 				<td style="padding: 5px"><span th:text="${avis.pseudoJoueur}" /></td>
