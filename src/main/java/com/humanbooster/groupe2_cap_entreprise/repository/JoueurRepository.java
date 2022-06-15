@@ -8,4 +8,6 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Joueur;
 @Repository
 public interface JoueurRepository extends JpaRepository<Joueur, Long> {
 
+	Joueur findByPseudo(String pseudo);
+
 }
