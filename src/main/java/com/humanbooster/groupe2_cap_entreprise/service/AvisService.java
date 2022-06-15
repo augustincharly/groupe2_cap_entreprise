@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
@@ -45,7 +47,9 @@ public class AvisService implements IAvisService {
 		avis.setNote(avis_note);
 		avis.setJeu(jeu);
 		avis.setDateEnvoi(LocalDateTime.now());
-		avis.setJoueur(joueurService.getJoueurById(2));
+		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		String pseudo = authentication.getName().toString();
+		avis.setJoueur(joueurService.getJoueurByPseudo(pseudo));
 		avisRepository.save(avis);
 
 	}
