@@ -41,7 +41,7 @@ td, th {
 				<td style="padding: 5px"><span th:text="${avis.note}" /></td>
 				<td style="padding: 5px" th:if="${avis.nomModerateur == null}"><a
 					th:href="@{/moderateur/avis/{id}(id=${avis.id})}">modérer</a></td>
-					<td style="padding: 5px" th:if="${avis.nomModerateur != null}"> - </td>
+					<td style="padding: 5px" th:if="${avis.nomModerateur != null}" th:text="${avis.nomModerateur}"> nom modérateur </td>
 				<td style="padding: 5px" th:if="${avis.nomModerateur == null}">à
 					voir</td>
 				<td style="padding: 5px" th:if="${avis.nomModerateur != null}">validé</td>
