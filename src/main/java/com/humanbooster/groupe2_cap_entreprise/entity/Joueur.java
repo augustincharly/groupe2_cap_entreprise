@@ -10,11 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "joueur")
 public class Joueur extends Utilisateur {
 
 	@Column(name = "dateDeNaissance", nullable = false)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateDeNaissance;
 
 	@OneToMany(mappedBy = "joueur", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
