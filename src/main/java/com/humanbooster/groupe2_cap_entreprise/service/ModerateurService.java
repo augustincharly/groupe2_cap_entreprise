@@ -22,4 +22,9 @@ public class ModerateurService implements IModerateurService {
 		return moderateurRepository.findById(id).get();
 	}
 
+	@Override
+	public Moderateur getModerateurByPseudo(String pseudo) {
+		return moderateurRepository.findByPseudo(pseudo);
+	}
+
 }

@@ -179,8 +179,10 @@ public class InitController {
 		joueurService.save(joueur3);
 
 		Moderateur moderateur = new Moderateur("modo", passwordEncoder().encode("MODO"), "modo@gmail.com");
+		Moderateur moderateur2 = new Moderateur("moderateur", passwordEncoder().encode("MODERATEUR"), "moderateur@gmail.com");
 
 		moderateurService.save(moderateur);
+		moderateurService.save(moderateur2);
 
 		Jeu jeu1 = new Jeu();
 		jeu1.setNom("Elden Ring");
