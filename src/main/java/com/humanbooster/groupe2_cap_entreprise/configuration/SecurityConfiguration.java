@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         .antMatchers("/moderateur/**").access("hasRole('MODERATEUR')")
         .antMatchers("/joueur/**").access("hasRole('JOUEUR')")
-        .antMatchers("/inscription").permitAll()
+        .antMatchers("/inscription","/init").permitAll()
         .and()
         .formLogin()
             .loginPage("/login").permitAll()
