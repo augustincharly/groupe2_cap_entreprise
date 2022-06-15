@@ -36,7 +36,7 @@ import com.humanbooster.groupe2_cap_entreprise.service.IPlateformeService;
 @RequestMapping(value = "init")
 public class InitController {
 
-	@Bean
+	@Bean({"b2"})
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}

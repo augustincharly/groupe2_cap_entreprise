@@ -18,7 +18,7 @@ import com.humanbooster.groupe2_cap_entreprise.service.JoueurService;
 @RequestMapping(value="/inscription")
 public class InscriptionController {
 	
-	@Bean({"b2"})
+	@Bean({"b3"})
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}

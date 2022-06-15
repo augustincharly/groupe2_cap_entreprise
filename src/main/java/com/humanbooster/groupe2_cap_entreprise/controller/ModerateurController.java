@@ -1,18 +1,14 @@
 package com.humanbooster.groupe2_cap_entreprise.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +23,6 @@ import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Avis;
 import com.humanbooster.groupe2_cap_entreprise.entity.Moderateur;
-import com.humanbooster.groupe2_cap_entreprise.repository.AvisRepository;
 import com.humanbooster.groupe2_cap_entreprise.service.IModerateurService;
 import com.humanbooster.groupe2_cap_entreprise.entity.Classification;
 import com.humanbooster.groupe2_cap_entreprise.entity.Editeur;
