@@ -11,4 +11,6 @@ public interface IModerateurService {
 	
 	public Moderateur getModerateur(Long id);
 
+	public Moderateur getModerateurByPseudo(String pseudo);
+
 }
