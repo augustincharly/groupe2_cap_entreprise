@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.humanbooster.groupe2_cap_entreprise.configuration.EnvironmentVariable;
 import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Avis;
@@ -107,11 +110,14 @@ public class ModerateurController {
 		return new ModelAndView("redirect:/moderateur/avis");
 	}
 
-	@GetMapping("jeu")
-	public String getJeux(Model model) {
-		List<JeuDTO> jeux = jeuService.getJeux();
-
-		model.addAttribute("jeux", jeux);
+	@GetMapping("jeu/page/{id}")
+	public String getJeux(@PathVariable(name="id") Integer id, Model model) {
+		Pageable pagination = PageRequest.of(id, EnvironmentVariable.ITEMS_PER_PAGE);
+		List<JeuDTO> jeuxDTOs = jeuService.getJeuDTOsWithPagination(pagination);	
+		Integer nombreDePages = jeuService.getJeuPageDTOsWithPagination(pagination).getTotalPages();
+		model.addAttribute("nombreDePages", nombreDePages);
+		model.addAttribute("id", id);
+		model.addAttribute("jeux", jeuxDTOs);
 
 		return "moderateur/jeuxListe";
 	}

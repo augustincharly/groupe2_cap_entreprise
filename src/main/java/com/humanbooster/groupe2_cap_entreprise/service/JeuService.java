@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
@@ -94,6 +96,23 @@ public class JeuService implements IJeuService {
 		}
 		jeuRepository.save(jeu);
 		
+	}
+
+	@Override
+	public List<JeuDTO> getJeuDTOsWithPagination(Pageable pagination) {
+		List<Jeu> jeux =  jeuRepository.findAll(pagination).getContent();
+		List<JeuDTO> jeuDTOs = new ArrayList<>();
+		for(Jeu jeuToAdd : jeux) {
+			jeuDTOs.add(TransformerFactory.getJeuTransformer().transform(jeuToAdd));
+		}
+				
+		return jeuDTOs;
+	}
+
+	@Override
+	public Page<Jeu> getJeuPageDTOsWithPagination(Pageable pagination) {
+		Page<Jeu> jeuDTOs =  jeuRepository.findAll(pagination);
+		return jeuDTOs;
 	}
 	
 	
