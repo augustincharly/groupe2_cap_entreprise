@@ -32,7 +32,7 @@
 			<th>Opérations</th>
 		</thead>
 		<tbody>
-			<tr th:each="avis: ${list_avis}" th:if="${avis.pseudoJoueur==thispseudojoueur OR avis.nomModerateur != null}">
+			<tr th:each="avis: ${list_avis}">
 				<td style="padding: 5px"><span th:text="${#temporals.format(avis.dateEnvoi, 'dd/MM/yyyy HH:mm')}" /></td>
 				<td style="padding: 5px"><span th:text="${avis.nomJeu}" /></td>
 				<td style="padding: 5px"><span th:text="${avis.pseudoJoueur}" /></td>
@@ -48,5 +48,10 @@
 
 	<a th:href="@{/joueur/avis/new}" style="margin-right: 300px">Ajouter un avis</a>
 	<a href="/logout" />>Déconnexion</a>
+	<a th:href="@{/joueur/avis/page/0}" style="margin-right: 300px" th:if="${id != 0}"><img class="bouttons_navigation" th:src="@{/angles-left-solid.svg}" alt="icône début" style="width:10px"></a>
+	<a th:href="@{/joueur/avis/page/{id}(id=${id}-1)}" style="margin-right: 300px" th:if="${id != 0}"><img class="bouttons_navigation" th:src="@{/angle-left-solid.svg}" alt="icône début" style="width:10px"></a>
+	<span th:text=${id+1}></span>
+	<a th:href="@{/joueur/avis/page/{id}(id=${id}+1)}" style="margin-right: 300px" th:if="${id!=nombreDePages}" ><img class="bouttons_navigation" th:src="@{/angle-right-solid.svg}" alt="icône début" style="width:10px"></a>
+	<a th:href="@{/joueur/avis/page/{nombreDePages}(nombreDePages=${nombreDePages})}" style="margin-right: 300px" th:if="${id!=nombreDePages}"><img class="bouttons_navigation" th:src="@{/angles-right-solid.svg}" alt="icône début" style="width:10px"></a>
 </body>
 </html>
