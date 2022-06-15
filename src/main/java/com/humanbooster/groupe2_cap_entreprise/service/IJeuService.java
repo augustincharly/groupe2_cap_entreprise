@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
 
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
-import com.humanbooster.groupe2_cap_entreprise.formwrapper.CreateJeuFormWrapper;
+import com.humanbooster.groupe2_cap_entreprise.formwrapper.JeuFormWrapper;
 
 @Component
 public interface IJeuService {
@@ -24,6 +24,6 @@ public interface IJeuService {
 
 	public List<JeuDTO> getJeux();
 
-	public void save(CreateJeuFormWrapper createjeu);
+	public void save(JeuFormWrapper createjeu);
 
 }

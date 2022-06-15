@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Genre;
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
 import com.humanbooster.groupe2_cap_entreprise.entity.ModeleEconomique;
 import com.humanbooster.groupe2_cap_entreprise.entity.Plateforme;
-import com.humanbooster.groupe2_cap_entreprise.formwrapper.CreateJeuFormWrapper;
+import com.humanbooster.groupe2_cap_entreprise.formwrapper.JeuFormWrapper;
 import com.humanbooster.groupe2_cap_entreprise.service.IClassificationService;
 import com.humanbooster.groupe2_cap_entreprise.service.IEditeurService;
 import com.humanbooster.groupe2_cap_entreprise.service.IGenreService;
@@ -39,29 +40,28 @@ import com.humanbooster.groupe2_cap_entreprise.service.IJeuService;
 import com.humanbooster.groupe2_cap_entreprise.service.IModeleEconomiqueService;
 import com.humanbooster.groupe2_cap_entreprise.service.IPlateformeService;
 
-
 @Controller
 @RequestMapping("moderateur")
 public class ModerateurController {
 
-	private final String UPLOADED_FOLDER = "C:\\Users\\Sam\\AppData\\Local\\GitHubDesktop\\app-3.0.0\\groupe2_cap_entreprise\\src\\main\\resources\\static\\";
+	private final String UPLOADED_FOLDER = "D:\\Mes documents\\Mon code\\eclipse-workspace\\groupe2_cap_entreprise\\groupe2_cap_entreprise\\src\\main\\resources\\static\\";
 	private final String UPLOADED_DIR = "/";
-	
+
 	@Autowired
 	private IJeuService jeuService;
 
 	@Autowired
 	private IEditeurService editeurService;
-	
+
 	@Autowired
 	private IGenreService genreService;
-	
+
 	@Autowired
 	private IClassificationService classificationService;
-	
+
 	@Autowired
 	private IModeleEconomiqueService modeleEconomiqueService;
-	
+
 	@Autowired
 	private IPlateformeService plateformeService;
 	@Autowired
@@ -128,7 +128,6 @@ public class ModerateurController {
 		return new ModelAndView("redirect:/moderateur/jeu");
 	}
 
-	
 	@GetMapping("jeu/new")
 	public String getCreateJeu(Model model) {
 		List<Editeur> editeurs = editeurService.getAllEditeurs();
@@ -141,51 +140,120 @@ public class ModerateurController {
 		model.addAttribute("classifications", classifications);
 		model.addAttribute("plateformes", plateformes);
 		model.addAttribute("modeleEconomiques", modeleEconomiques);
-		model.addAttribute("createJeu", new CreateJeuFormWrapper());
+		model.addAttribute("createJeu", new JeuFormWrapper());
 		return "moderateur/createJeu";
 	}
-	
+
 	@PostMapping("jeu/new")
-	public ModelAndView postCreateJeu(@ModelAttribute CreateJeuFormWrapper createjeu) {
+	public ModelAndView postCreateJeu(@ModelAttribute JeuFormWrapper createjeu) {
 		jeuService.save(createjeu);
 		return new ModelAndView("redirect:/moderateur/jeu");
 	}
-	
+
+	@GetMapping("jeu/{id}/update")
+	public String getUpdateJeu(@PathVariable(name = "id") Long id, Model model) {
+		List<Editeur> editeurs = editeurService.getAllEditeurs();
+		List<Genre> genres = genreService.getAllGenres();
+		List<Classification> classifications = classificationService.getAllClassifications();
+		List<Plateforme> plateformes = plateformeService.getAllPlateformes();
+		List<ModeleEconomique> modeleEconomiques = modeleEconomiqueService.getAllModeleEconomiques();
+
+		Jeu jeuToUpdate = jeuService.getJeuByID(id);
+		JeuFormWrapper wrapper = new JeuFormWrapper();
+		wrapper.setId(id);
+		wrapper.setClassification_id(jeuToUpdate.getClassification().getId());
+		wrapper.setDateDeSortie(jeuToUpdate.getDateDeSortie());
+		wrapper.setEditeur_id(jeuToUpdate.getEditeur().getId());
+		wrapper.setGenre_id(jeuToUpdate.getGenre().getId());
+		wrapper.setJeu_description(jeuToUpdate.getDescription());
+		wrapper.setJeu_nom(jeuToUpdate.getNom());
+		wrapper.setModeleEconomique_id(jeuToUpdate.getModeleEconomique().getId());
+		List<Long> plateformesIds = new ArrayList<Long>();
+
+		jeuToUpdate.getPlateformes().forEach(plateforme -> {
+			plateformesIds.add(plateforme.getId());
+		});
+
+		wrapper.setPlateformes_id(plateformesIds);
+
+		model.addAttribute("editeurs", editeurs);
+		model.addAttribute("genres", genres);
+		model.addAttribute("classifications", classifications);
+		model.addAttribute("plateformes", plateformes);
+		model.addAttribute("modeleEconomiques", modeleEconomiques);
+		model.addAttribute("updateJeu", wrapper);
+		return "moderateur/updateJeu";
+	}
+
+	@PostMapping("jeu/{id}/update")
+	public ModelAndView postUpdateJeu(@PathVariable(name = "id") Long id,
+			@ModelAttribute JeuFormWrapper updatedJeu) {
+		Jeu jeu = jeuService.getJeuByID(id);
+
+		Classification classification = classificationService.findClassificationById(updatedJeu.getClassification_id());
+		jeu.setClassification(classification);
+
+		ModeleEconomique modeleEconomique = modeleEconomiqueService
+				.findModeleEconomiqueById(updatedJeu.getModeleEconomique_id());
+		jeu.setModeleEconomique(modeleEconomique);
+
+		jeu.setDateDeSortie(updatedJeu.getDateDeSortie());
+
+		jeu.setDescription(updatedJeu.getJeu_description());
+
+		Editeur editeur = editeurService.findEditeurById(updatedJeu.getEditeur_id());
+		jeu.setEditeur(editeur);
+
+		Genre genre = genreService.findGenreById(updatedJeu.getGenre_id());
+		jeu.setGenre(genre);
+
+		jeu.setNom(updatedJeu.getJeu_nom());
+
+		List<Plateforme> plateformes = new ArrayList<Plateforme>();
+
+		updatedJeu.getPlateformes_id().forEach(plateforme_id -> {
+			Plateforme plateforme = plateformeService.findPlateformeById(plateforme_id);
+			plateformes.add(plateforme);
+		});
+
+		jeu.setPlateformes(plateformes);
+
+		jeuService.save(jeu);
+		return new ModelAndView("redirect:/moderateur/jeu");
+	}
+
 	@GetMapping("jeu/{id}/uploadimage")
 	public String uploadImageJeu(@PathVariable Long id, Model model) {
 		Jeu jeu = jeuService.getJeuByID(id);
 		model.addAttribute("jeu", jeu);
 		return "moderateur/uploadimage";
 	}
-	
+
 	@PostMapping("jeu/{id}/uploadimage")
-	public ModelAndView uploadImageJeu(@RequestParam("file") MultipartFile file, RedirectAttributes attributes,@PathVariable Long id) {
-        if (file.isEmpty()) {
-            attributes.addFlashAttribute("message", "Please select a file to upload");
-            return new ModelAndView("redirect:/moderateur/jeu");
-        }
+	public ModelAndView uploadImageJeu(@RequestParam("file") MultipartFile file, RedirectAttributes attributes,
+			@PathVariable Long id) {
+		if (file.isEmpty()) {
+			attributes.addFlashAttribute("message", "Please select a file to upload");
+			return new ModelAndView("redirect:/moderateur/jeu");
+		}
 
-        try {
+		try {
 
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-            Files.write(path, bytes);
+			// Get the file and save it somewhere
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+			Files.write(path, bytes);
 
-            attributes.addFlashAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
-            	Jeu jeu=jeuService.getJeuByID(id);
-            	jeu.setImage(UPLOADED_DIR + file.getOriginalFilename());
-            	jeuService.save(jeu);
-            
+			attributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'");
+			Jeu jeu = jeuService.getJeuByID(id);
+			jeu.setImage(UPLOADED_DIR + file.getOriginalFilename());
+			jeuService.save(jeu);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        return new ModelAndView("redirect:/moderateur/jeu");
-    }
-		
+		return new ModelAndView("redirect:/moderateur/jeu");
 	}
-	
 
+}

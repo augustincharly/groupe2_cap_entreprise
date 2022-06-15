@@ -2,11 +2,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Ajout d'un jeu</title>
+<title>Modification d'un jeu</title>
 </head>
 <body>
-	<h1>Ajout d'un Jeu</h1>
-	<form method="post" th:action="@{/moderateur/jeu/new}" th:object="${createJeu}">
+	<h1>Modification d'un Jeu</h1>
+	<form method="post" th:action="@{/moderateur/jeu/{id}/update(id=${updateJeu.id})}" th:object="${updateJeu}">
 		<div style="display:flex">
 		<label style="display:block;width:100px" for="jeu-description">Nom :</label>
 		<input type="text" id="jeu-description" placeholder="Ecrire le nom du jeu"
