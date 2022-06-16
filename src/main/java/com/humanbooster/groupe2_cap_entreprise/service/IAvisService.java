@@ -41,5 +41,7 @@ public interface IAvisService {
 
 	public Page<Avis> getAvisPageDTOsWithPagination(Pageable pagination);
 
+	public Page<Avis> getAllPageAvisSortedModerateur(Integer pageNum, String sortField, String sortDir);
+
 
 }
