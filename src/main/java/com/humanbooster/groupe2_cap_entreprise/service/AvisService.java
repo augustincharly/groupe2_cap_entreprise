@@ -6,11 +6,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.humanbooster.groupe2_cap_entreprise.configuration.EnvironmentVariable;
 import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Avis;
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
@@ -49,7 +52,7 @@ public class AvisService implements IAvisService {
 		avis.setNote(avis_note);
 		avis.setJeu(jeu);
 		avis.setDateEnvoi(LocalDateTime.now());
-		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String pseudo = authentication.getName().toString();
 		avis.setJoueur(joueurService.getJoueurByPseudo(pseudo));
 		avisRepository.save(avis);
@@ -84,20 +87,13 @@ public class AvisService implements IAvisService {
 	public Avis getAvis(Long id) {
 		return avisRepository.findById(id).get();
 	}
-	
-	public List<AvisDTO> getAvisDTOsWithPagination(String pseudo, Pageable pagination){
-		List<Avis> avis =  avisRepository.findAll(pseudo, pagination).getContent();
-		List<AvisDTO> avisDTOs = new ArrayList<>();
-		for(Avis aviToAdd : avis) {
-			avisDTOs.add(TransformerFactory.getAvisTransformer().transform(aviToAdd));
-		}
-				
-		return avisDTOs;
-	}
-	
-	public Page<Avis> getAvisPageDTOsWithPagination(String pseudo, Pageable pagination){
-		Page<Avis> avisDTOs =  avisRepository.findAll(pseudo, pagination);
-		return avisDTOs;
+
+	@Override
+	public Page<Avis> getAllPageAvisSorted(String pseudo, int pageNum, String sortField, String sortDir) {
+		int pageSize = EnvironmentVariable.ITEMS_PER_PAGE;
+		Pageable pageable = PageRequest.of(pageNum, pageSize,
+				sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+		return avisRepository.findAll(pseudo, pageable);
 	}
 
 }
