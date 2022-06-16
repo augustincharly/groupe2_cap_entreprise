@@ -31,4 +31,14 @@ public interface IAvisService {
 
 	Page<Avis> getAllPageAvisSorted(String pseudo, int pageNum, String sortField, String sortDir);
 
+
+	public List<AvisDTO> getAvisDTOsWithPagination(String pseudo, Pageable pagination);
+
+	public Page<Avis> getAvisPageDTOsWithPagination(String pseudo, Pageable pagination);
+
+	public List<AvisDTO> getAvisDTOsWithPagination(Pageable pagination);
+
+	public Page<Avis> getAvisPageDTOsWithPagination(Pageable pagination);
+
+
 }

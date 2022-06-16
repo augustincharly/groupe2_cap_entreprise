@@ -88,12 +88,46 @@ public class AvisService implements IAvisService {
 		return avisRepository.findById(id).get();
 	}
 
+
 	@Override
 	public Page<Avis> getAllPageAvisSorted(String pseudo, int pageNum, String sortField, String sortDir) {
 		int pageSize = EnvironmentVariable.ITEMS_PER_PAGE;
 		Pageable pageable = PageRequest.of(pageNum, pageSize,
 				sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
 		return avisRepository.findAll(pseudo, pageable);
+    }
+
+	public List<AvisDTO> getAvisDTOsWithPagination(String pseudo, Pageable pagination) {
+		List<Avis> avis = avisRepository.findAll(pseudo, pagination).getContent();
+		List<AvisDTO> avisDTOs = new ArrayList<>();
+		for (Avis aviToAdd : avis) {
+			avisDTOs.add(TransformerFactory.getAvisTransformer().transform(aviToAdd));
+		}
+
+		return avisDTOs;
+	}
+
+	public Page<Avis> getAvisPageDTOsWithPagination(String pseudo, Pageable pagination) {
+		Page<Avis> avisDTOs = avisRepository.findAll(pseudo, pagination);
+		return avisDTOs;
+	}
+
+	@Override
+	public List<AvisDTO> getAvisDTOsWithPagination(Pageable pagination) {
+		List<Avis> avis = avisRepository.findAll(pagination).getContent();
+		List<AvisDTO> avisDTOs = new ArrayList<>();
+		for (Avis aviToAdd : avis) {
+			avisDTOs.add(TransformerFactory.getAvisTransformer().transform(aviToAdd));
+		}
+
+		return avisDTOs;
+	}
+
+	@Override
+	public Page<Avis> getAvisPageDTOsWithPagination(Pageable pagination) {
+		Page<Avis> avisDTOs = avisRepository.findAll(pagination);
+		return avisDTOs;
+
 	}
 
 }

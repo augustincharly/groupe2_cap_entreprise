@@ -5,65 +5,141 @@
 <title>Liste des avis</title>
 
 <style>
-.placeholder{
+body, html, .container {
+	height: 90%;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+	padding: 10px;
+	border-radius: 3px;
+	border: 1px solid blue;
+	color: blue;
+	text-decoration: none;
+	margin: 20px 20px 20px 0;
+}
+
+.placeholder {
 	height: 250px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
 
+a.disabled {
+	pointer-events: none;
+	color: grey;
+}
+
+.icon {
+	margin-left: 20px;
+	margin-right: 20px;
 }
 </style>
 </head>
 <body>
-	<h2>LISTE DES AVIS</h2>
-	
-	
-	<div class="placeholder" th:if="${list_avis.size() == 0}" >
-		pas d'avis à afficher
-	</div>
-	<table border="true" style="border-collapse: collapse" th:if="${list_avis.size() != 0}">
-		<thead>
-			<th>Date d'envoi 
-			<a th:href="@{'/joueur/avis/page/0/' + '?sortField=dateEnvoi'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri date ascendant" style="width:10px"></a>
-			<a th:href="@{'/joueur/avis/page/0/' + '?sortField=dateEnvoi'+ '&sortDir=desc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/down-long-solid.svg}" alt="tri date descendant" style="width:10px"></a>
-			</th>
-			<th>Nom du Jeu
-			<a th:href="@{'/joueur/avis/page/0/' + '?sortField=jeu'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri nom ascendant" style="width:10px"></a>
-			<a th:href="@{'/joueur/avis/page/0/' + '?sortField=jeu'+ '&sortDir=desc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/down-long-solid.svg}" alt="tri nom descendant" style="width:10px"></a>
-			</th>
-			<th>Pseudo du joueur
-			<a th:href="@{'/joueur/avis/page/0/' + '?sortField=joueur'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri pseudo ascendant" style="width:10px"></a>
+	<div class="container">
+
+		<div>
+			<h2>LISTE DES AVIS</h2>
+
+
+			<div class="placeholder" th:if="${list_avis.size() == 0}">pas
+				d'avis à afficher</div>
+			<table border="true" style="border-collapse: collapse"
+				th:if="${list_avis.size() != 0}">
+				<thead>
+          <th>Date d'envoi
+          <a th:href="@{'/joueur/avis/page/0/' + '?sortField=dateEnvoi'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri date ascendant" style="width:10px"></a>
+			    <a th:href="@{'/joueur/avis/page/0/' + '?sortField=dateEnvoi'+ '&sortDir=desc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/down-long-solid.svg}" alt="tri date descendant" style="width:10px"></a>
+			    </th>
+					<th>Nom du Jeu
+          	<a th:href="@{'/joueur/avis/page/0/' + '?sortField=jeu'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri nom ascendant" style="width:10px"></a>
+			    <a th:href="@{'/joueur/avis/page/0/' + '?sortField=jeu'+ '&sortDir=desc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/down-long-solid.svg}" alt="tri nom descendant" style="width:10px"></a>
+			    </th>
+					<th>Pseudo du joueur
+          	<a th:href="@{'/joueur/avis/page/0/' + '?sortField=joueur'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri pseudo ascendant" style="width:10px"></a>
 			<a th:href="@{'/joueur/avis/page/0/' + '?sortField=joueur'+ '&sortDir=desc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/down-long-solid.svg}" alt="tri pseudo descendant" style="width:10px"></a>
 			</th>
-			<th>Note
-			<a th:href="@{'/joueur/avis/page/0/' + '?sortField=note'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri note ascendant" style="width:10px"></a>
+					<th>Note
+          	<a th:href="@{'/joueur/avis/page/0/' + '?sortField=note'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri note ascendant" style="width:10px"></a>
 			<a th:href="@{'/joueur/avis/page/0/' + '?sortField=note'+ '&sortDir=desc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/down-long-solid.svg}" alt="tri note descendant" style="width:10px"></a>
 			</th>
-			<th>Image</th>
-			<th>Statut</th>
-			<th>Opérations</th>
-		</thead>
-		<tbody>
-			<tr th:each="avis: ${list_avis}">
-				<td style="padding: 5px"><span th:text="${#temporals.format(avis.dateEnvoi, 'dd/MM/yyyy HH:mm')}" /></td>
-				<td style="padding: 5px"><span th:text="${avis.nomJeu}" /></td>
-				<td style="padding: 5px"><span th:text="${avis.pseudoJoueur}" /></td>
-				<td style="padding: 5px"><span th:text="${avis.note}" /></td>
-				<td style="padding: 5px"><img style="width: 100px"
-					th:src="${avis.image}" /></td>
-				<td style="padding: 5px" th:if="${avis.nomModerateur == null}">A modérer</td>
-				<td style="padding: 5px" th:if="${avis.nomModerateur != null}">Modéré par <span th:text="${avis.nomModerateur}"></span></td>
-				<td style="padding: 5px"><a th:href="@{/joueur/avis/{id}(id=${avis.id})}">Voir</a></td>
-			</tr>
-		</tbody>
-	</table>
+					<th>Image</th>
+					<th>Statut</th>
+					<th>Opérations</th>
+				</thead>
+				<tbody>
+					<tr th:each="avis: ${list_avis}">
+						<td style="padding: 5px"><span
+							th:text="${#temporals.format(avis.dateEnvoi, 'dd/MM/yyyy HH:mm')}" /></td>
+						<td style="padding: 5px"><span th:text="${avis.nomJeu}" /></td>
+						<td style="padding: 5px"><span th:text="${avis.pseudoJoueur}" /></td>
+						<td style="padding: 5px"><span th:text="${avis.note}" /></td>
+						<td style="padding: 5px"><img style="width: 100px"
+							th:src="${avis.image}" /></td>
+						<td style="padding: 5px" th:if="${avis.nomModerateur == null}">A
+							modérer</td>
+						<td style="padding: 5px" th:if="${avis.nomModerateur != null}">Modéré
+							par <span th:text="${avis.nomModerateur}"></span>
+						</td>
+						<td style="padding: 5px"><a
+							th:href="@{/joueur/avis/{id}(id=${avis.id})}">Voir</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<div style="display: flex">
 
-	<a th:href="@{/joueur/avis/new}" style="margin-right: 300px">Ajouter un avis</a>
-	<a href="/logout" />>Déconnexion</a>
-	<a th:href="@{'/joueur/avis/page/0?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" style="margin-right: 300px" th:if="${id != 0}"><img class="bouttons_navigation" th:src="@{/angles-left-solid.svg}" alt="icône début" style="width:10px"></a>
-	<a th:href="@{'/joueur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}-1)}" style="margin-right: 300px" th:if="${id != 0}"><img class="bouttons_navigation" th:src="@{/angle-left-solid.svg}" alt="icône début" style="width:10px"></a>
-	<span th:text=${id+1}></span>
-	<a th:href="@{'/joueur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}+1)}" style="margin-right: 300px" th:if="${id!=(totalPages-1)}" ><img class="bouttons_navigation" th:src="@{/angle-right-solid.svg}" alt="icône début" style="width:10px"></a>
-	<a th:href="@{'/joueur/avis/page/'+ ${totalPages-1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}" style="margin-right: 300px" th:if="${id!=(totalPages-1)}"><img class="bouttons_navigation" th:src="@{/angles-right-solid.svg}" alt="icône début" style="width:10px"></a>
+					<a class="button" th:href="@{/joueur/avis/new}">Ajouter un
+						avis</a> <a id="logoutButton" class="button" href="/logout" />Déconnexion</a>
+
+				</div>
+
+
+
+				<div style="margin-top: 15px">
+					<div style="display: flex">
+						<div>
+							<a th:href="@{'/joueur/avis/page/0?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"><img class=" icon"
+								th:src="@{/angles-left-solid.svg}" alt="icône début"
+								style="width: 10px"></a>
+						</div>
+						<div>
+							<a th:href="@{'/joueur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}-1)}"
+								th:if="${id != 0 }"><img class=" icon"
+								th:src="@{/angle-left-solid.svg}" alt="icône début"
+								style="width: 10px"></a>
+						</div>
+						<div>
+							<span th:text=${id+1}></span>
+						</div>
+						<div>
+							<a th:href="@{'/joueur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}+1)}"
+								th:if="${id!=totalPages-1}"><img class=" icon"
+								th:src="@{/angle-right-solid.svg}" alt="icône début"
+								style="width: 10px"></a>
+						</div>
+						<div>
+							<a th:href="@{'/joueur/avis/page/'+ ${totalPages-1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+								th:if="${id!=totalPages-1}"><img class=" icon"
+								th:src="@{/angles-right-solid.svg}" alt="icône début"
+								style="width: 10px"></a>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+  <script type="text/javascript" th:src="@{/js/avisListe.js}"></script>
+
 </body>
 </html>

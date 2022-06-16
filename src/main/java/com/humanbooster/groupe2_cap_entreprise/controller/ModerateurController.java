@@ -75,10 +75,13 @@ public class ModerateurController {
 	@Autowired
 	private IModerateurService moderateurService;
 
-	@GetMapping("avis")
-	public String getAvis(Model model) {
-		List<AvisDTO> avisDTOs = avisService.getAvisDTOs();
-
+	@GetMapping("avis/page/{page}")
+	public String getAvis(@PathVariable(name="page")Integer numPage, Model model) {
+		Pageable pagination = PageRequest.of(numPage, EnvironmentVariable.ITEMS_PER_PAGE);
+		List<AvisDTO> avisDTOs = avisService.getAvisDTOsWithPagination(pagination);	
+		Integer nombreDePages = avisService.getAvisPageDTOsWithPagination(pagination).getTotalPages();
+		model.addAttribute("nombreDePages", nombreDePages);
+		model.addAttribute("id", numPage);
 		model.addAttribute("list_avis", avisDTOs);
 
 		return "moderateur/avisListe";
@@ -97,7 +100,7 @@ public class ModerateurController {
 	public ModelAndView deleteAvis(@PathVariable(name = "id") Long id) {
 
 		avisService.delete(id);
-		return new ModelAndView("redirect:/moderateur/avis");
+		return new ModelAndView("redirect:/moderateur/avis/page/0");
 	}
 
 	@GetMapping("avis/{id}/validate")
@@ -107,7 +110,7 @@ public class ModerateurController {
 		String pseudo = authentication.getName().toString();
 		Moderateur moderateur = moderateurService.getModerateurByPseudo(pseudo);
 		avisService.validateAvis(avis, moderateur);
-		return new ModelAndView("redirect:/moderateur/avis");
+		return new ModelAndView("redirect:/moderateur/avis/page/0");
 	}
 
 	@GetMapping("jeu/page/{id}")
@@ -118,7 +121,6 @@ public class ModerateurController {
 		model.addAttribute("nombreDePages", nombreDePages);
 		model.addAttribute("id", id);
 		model.addAttribute("jeux", jeuxDTOs);
-
 		return "moderateur/jeuxListe";
 	}
 
@@ -135,7 +137,7 @@ public class ModerateurController {
 	public ModelAndView deleteJeu(@PathVariable(name = "id") Long id) {
 
 		jeuService.delete(id);
-		return new ModelAndView("redirect:/moderateur/jeu");
+		return new ModelAndView("redirect:/moderateur/jeu/page/0");
 	}
 
 	@GetMapping("jeu/new")
@@ -157,7 +159,7 @@ public class ModerateurController {
 	@PostMapping("jeu/new")
 	public ModelAndView postCreateJeu(@ModelAttribute JeuFormWrapper createjeu) {
 		jeuService.save(createjeu);
-		return new ModelAndView("redirect:/moderateur/jeu");
+		return new ModelAndView("redirect:/moderateur/jeu/page/0");
 	}
 
 	@GetMapping("jeu/{id}/update")
@@ -229,7 +231,7 @@ public class ModerateurController {
 		jeu.setPlateformes(plateformes);
 
 		jeuService.save(jeu);
-		return new ModelAndView("redirect:/moderateur/jeu");
+		return new ModelAndView("redirect:/moderateur/jeu/page/0");
 	}
 
 	@GetMapping("jeu/{id}/uploadimage")
@@ -244,7 +246,7 @@ public class ModerateurController {
 			@PathVariable Long id) {
 		if (file.isEmpty()) {
 			attributes.addFlashAttribute("message", "Please select a file to upload");
-			return new ModelAndView("redirect:/moderateur/jeu");
+			return new ModelAndView("redirect:/moderateur/jeu/page/0");
 		}
 
 		try {
@@ -263,7 +265,7 @@ public class ModerateurController {
 			e.printStackTrace();
 		}
 
-		return new ModelAndView("redirect:/moderateur/jeu");
+		return new ModelAndView("redirect:/moderateur/jeu/page/0");
 	}
 
 }

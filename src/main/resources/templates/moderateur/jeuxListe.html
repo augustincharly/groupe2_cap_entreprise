@@ -3,41 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <title>Liste des jeux</title>
+<style>
+body, html, .container {
+	height: 90%;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+	padding: 10px;
+	border-radius: 3px;
+	border: 1px solid blue;
+	color: blue;
+	text-decoration: none;
+	margin: 10px 20px 20px 0;
+}
+
+.placeholder {
+	height: 250px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+a.disabled {
+	pointer-events: none;
+	color: grey;
+}
+
+.icon {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+</style>
 </head>
 <body>
-	<h2>LISTE DES JEUX</h2>
-	<table border="true" style="border-collapse: collapse;margin-bottom: 25px">
-		<thead>
-			<th>Image</th>
-			<th>Nom</th>
-			<th>Editeur</th>
-			<th>Opérations</th>
-		</thead>
-		<tbody>
-			<tr th:each="jeu: ${jeux}">
-				<td style="padding: 5px"><img style="width: 100px"
-					th:src="@{${jeu.image}}" /></td>
-				<td style="padding: 5px"><span th:text="${jeu.nom}" /></td>
-				<td style="padding: 5px"><span th:text="${jeu.editeur}" /></td>
-			
-				<td style="padding: 5px">
-				<a th:href="@{/moderateur/jeu/{id}(id=${jeu.id})}">Voir</a>
-				<a th:href="@{/moderateur/jeu/{id}/update(id=${jeu.id})}">Modifier</a>
-				<a th:href="@{/moderateur/jeu/{id}/uploadimage(id=${jeu.id})}">Téléverser l'image</a>
-				<a th:href="@{/moderateur/jeu/{id}/delete(id=${jeu.id})}">Supprimer</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="container">
 
-	<a th:href="@{/moderateur/jeu/new}" style="margin-right: 50px">Ajouter un jeu</a>
-	<a href="#">Liste des avis</a>
-	<a href="/logout" />>Déconnexion</a>
-	<a th:href="@{/moderateur/jeu/page/0}" style="margin-right: 300px" th:if="${id != 0}"><img class="bouttons_navigation" th:src="@{/angles-left-solid.svg}" alt="icône début" style="width:10px"></a>
-	<a th:href="@{/moderateur/jeu/page/{id}(id=${id}-1)}" style="margin-right: 300px" th:if="${id != 0}"><img class="bouttons_navigation" th:src="@{/angle-left-solid.svg}" alt="icône début" style="width:10px"></a>
-	<span th:text=${id+1}></span>
-	<a th:href="@{/moderateur/jeu/page/{id}(id=${id}+1)}" style="margin-right: 300px" th:if="${id!=nombreDePages-1}" ><img class="bouttons_navigation" th:src="@{/angle-right-solid.svg}" alt="icône début" style="width:10px"></a>
-	<a th:href="@{/moderateur/jeu/page/{id}(id=${nombreDePages}-1)}" style="margin-right: 300px" th:if="${id!=nombreDePages-1}"><img class="bouttons_navigation" th:src="@{/angles-right-solid.svg}" alt="icône début" style="width:10px"></a>
-	
+		<div>
+
+			<h2>LISTE DES JEUX</h2>
+			<table border="true"
+				style="border-collapse: collapse; margin-bottom: 25px">
+				<thead>
+					<th>Image</th>
+					<th>Nom</th>
+					<th>Editeur</th>
+					<th>Opérations</th>
+				</thead>
+				<tbody>
+					<tr th:each="jeu: ${jeux}">
+						<td style="padding: 5px"><img style="width: 100px"
+							th:src="@{${jeu.image}}" /></td>
+						<td style="padding: 5px"><span th:text="${jeu.nom}" /></td>
+						<td style="padding: 5px"><span th:text="${jeu.editeur}" /></td>
+
+						<td style="padding: 5px"><a
+							th:href="@{/moderateur/jeu/{id}(id=${jeu.id})}">Voir</a> <a
+							th:href="@{/moderateur/jeu/{id}/update(id=${jeu.id})}">Modifier</a>
+							<a th:href="@{/moderateur/jeu/{id}/uploadimage(id=${jeu.id})}">Téléverser
+								l'image</a> <a class="deleteButton"
+							th:href="@{/moderateur/jeu/{id}/delete(id=${jeu.id})}">Supprimer</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<div style="display: flex">
+
+					<a th:href="@{/moderateur/jeu/new}" class="button">Ajouter un
+						jeu</a> <a class="button" th:href="@{/moderateur/avis/page/0}">Liste des avis</a> <a
+						class="button" id="logoutButton" href="/logout" />Déconnexion</a>
+
+				</div>
+
+
+
+				<div style="margin-top: 15px">
+					<div style="display: flex">
+						<div>
+							<a th:href="@{/moderateur/jeu/page/0}"><img class=" icon"
+								th:src="@{/angles-left-solid.svg}" alt="icône début"
+								style="width: 10px"></a>
+						</div>
+						<div>
+							<a th:href="@{/moderateur/jeu/page/{id}(id=${id}-1)}"
+								th:if="${id != 0 }"><img class=" icon"
+								th:src="@{/angle-left-solid.svg}" alt="icône début"
+								style="width: 10px"></a>
+						</div>
+						<div>
+							<span th:text=${id+1}></span>
+						</div>
+						<div>
+							<a th:href="@{/moderateur/jeu/page/{id}(id=${id}+1)}"
+								th:if="${id!=nombreDePages-1}"><img class=" icon"
+								th:src="@{/angle-right-solid.svg}" alt="icône début"
+								style="width: 10px"></a>
+						</div>
+						<div>
+							<a th:href="@{/moderateur/jeu/page/{id}(id=${nombreDePages}-1)}"
+								th:if="${id!=nombreDePages-1}"><img class=" icon"
+								th:src="@{/angles-right-solid.svg}" alt="icône début"
+								style="width: 10px"></a>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+<script type="text/javascript" th:src="@{/js/jeuListe.js}"></script>
 </body>
 </html>

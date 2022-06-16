@@ -15,41 +15,121 @@
 td, th {
 	padding: 7px 15px !important;
 }
+
+body, html, .container {
+	height: 90%;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+	padding: 10px;
+	border-radius: 3px;
+	border: 1px solid blue;
+	color: blue;
+	text-decoration: none;
+	margin: 20px 20px 20px 0;
+}
+
+.placeholder {
+	height: 250px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+a.disabled {
+	pointer-events: none;
+	color: grey;
+}
+
+.icon {
+	margin-left: 20px;
+	margin-right: 20px;
+}
 </style>
 </head>
 <body>
-	<h2>LISTE DES AVIS</h2>
+
+	<div class="container">
+
+		<div>
+			<h2>LISTE DES AVIS</h2>
 
 
-	<div class="placeholder" th:if="${list_avis.size() == 0}">pas
-		d'avis à afficher</div>
-	<table border="true" style="border-collapse: collapse"
-		th:if="${list_avis.size() != 0}">
-		<thead>
-			<th>Joueur</th>
-			<th>Jeu</th>
-			<th>Description</th>
-			<th>Note</th>
-			<th>Modérer</th>
-			<th>Statut</th>
-		</thead>
-		<tbody>
-			<tr th:each="avis: ${list_avis}">
-				<td style="padding: 5px"><span th:text="${avis.pseudoJoueur}" /></td>
-				<td style="padding: 5px"><span th:text="${avis.nomJeu}" /></td>
-				<td style="padding: 5px"><span th:text="${avis.description}" /></td>
-				<td style="padding: 5px"><span th:text="${avis.note}" /></td>
-				<td style="padding: 5px" th:if="${avis.nomModerateur == null}"><a
-					th:href="@{/moderateur/avis/{id}(id=${avis.id})}">modérer</a></td>
-					<td style="padding: 5px" th:if="${avis.nomModerateur != null}" th:text="${avis.nomModerateur}"> nom modérateur </td>
-				<td style="padding: 5px" th:if="${avis.nomModerateur == null}">à
-					voir</td>
-				<td style="padding: 5px" th:if="${avis.nomModerateur != null}">validé</td>
+			<div class="placeholder" th:if="${list_avis.size() == 0}">pas
+				d'avis à afficher</div>
+			<table border="true" style="border-collapse: collapse"
+				th:if="${list_avis.size() != 0}">
+				<thead>
+					<th>Joueur</th>
+					<th>Jeu</th>
+					<th>Description</th>
+					<th>Note</th>
+					<th>Modérer</th>
+					<th>Statut</th>
+				</thead>
+				<tbody>
+					<tr th:each="avis: ${list_avis}">
+						<td style="padding: 5px"><span th:text="${avis.pseudoJoueur}" /></td>
+						<td style="padding: 5px"><span th:text="${avis.nomJeu}" /></td>
+						<td style="padding: 5px"><span th:text="${avis.description}" /></td>
+						<td style="padding: 5px"><span th:text="${avis.note}" /></td>
+						<td style="padding: 5px" th:if="${avis.nomModerateur == null}"><a
+							th:href="@{/moderateur/avis/{id}(id=${avis.id})}">modérer</a></td>
+						<td style="padding: 5px" th:if="${avis.nomModerateur != null}"
+							th:text="${avis.nomModerateur}">nom modérateur</td>
+						<td style="padding: 5px" th:if="${avis.nomModerateur == null}">à
+							voir</td>
+						<td style="padding: 5px" th:if="${avis.nomModerateur != null}">validé</td>
 
-			</tr>
-		</tbody>
-	</table>
+					</tr>
+				</tbody>
+			</table>
+			<div style="display: flex">
+				<a class="button" th:href="@{/moderateur/jeu/page/0}" />Liste des
+				jeux</a> <a class="button" href="/logout" id="logoutButton" />Déconnexion</a>
 
+			</div>
+			<div style="margin-top: 15px">
+				<div style="display: flex">
+					<div>
+						<a th:href="@{/moderateur/avis/page/0}"><img class=" icon"
+							th:src="@{/angles-left-solid.svg}" alt="icône début"
+							style="width: 10px"></a>
+					</div>
+					<div>
+						<a th:href="@{/moderateur/avis/page/{id}(id=${id}-1)}"
+							th:if="${id != 0 }"><img class=" icon"
+							th:src="@{/angle-left-solid.svg}" alt="icône début"
+							style="width: 10px"></a>
+					</div>
+					<div>
+						<span th:text=${id+1}></span>
+					</div>
+					<div>
+						<a th:href="@{/moderateur/avis/page/{id}(id=${id}+1)}"
+							th:if="${id!=nombreDePages-1}"><img class=" icon"
+							th:src="@{/angle-right-solid.svg}" alt="icône début"
+							style="width: 10px"></a>
+					</div>
+					<div>
+						<a th:href="@{/moderateur/avis/page/{id}(id=${nombreDePages}-1)}"
+							th:if="${id!=nombreDePages-1}"><img class=" icon"
+							th:src="@{/angles-right-solid.svg}" alt="icône début"
+							style="width: 10px"></a>
+					</div>
+				</div>
 
+			</div>
+
+		</div>
+	</div>
+
+<script type="text/javascript" th:src="@{/js/avisListe.js}"></script>
 </body>
 </html>
