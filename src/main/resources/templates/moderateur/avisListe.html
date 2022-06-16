@@ -67,35 +67,29 @@ a.disabled {
 				th:if="${list_avis.size() != 0}">
 				<thead>
 					<th>Joueur <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=asc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/up-long-solid.svg}" alt="tri pseudo ascendant"
-							style="width: 10px"></a> <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=desc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/down-long-solid.svg}" alt="tri pseudo descendant"
-							style="width: 10px"></a>
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=asc'}"><img
+							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
+							alt="tri pseudo ascendant" style="width: 10px"></a> <a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=desc'}"><img
+							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
+							alt="tri pseudo descendant" style="width: 10px"></a>
 					</th>
 					<th>Jeu <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=asc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/up-long-solid.svg}" alt="tri nom ascendant"
-							style="width: 10px"></a> <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=desc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/down-long-solid.svg}" alt="tri nom descendant"
-							style="width: 10px"></a>
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=asc'}"><img
+							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
+							alt="tri nom ascendant" style="width: 10px"></a> <a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=desc'}"><img
+							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
+							alt="tri nom descendant" style="width: 10px"></a>
 					</th>
 					<th>Description</th>
 					<th>Note <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=note'+ '&sortDir=asc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/up-long-solid.svg}" alt="tri note ascendant"
-							style="width: 10px"></a> <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=note'+ '&sortDir=desc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/down-long-solid.svg}" alt="tri note descendant"
-							style="width: 10px"></a>
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=note'+ '&sortDir=asc'}"><img
+							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
+							alt="tri note ascendant" style="width: 10px"></a> <a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=note'+ '&sortDir=desc'}"><img
+							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
+							alt="tri note descendant" style="width: 10px"></a>
 					</th>
 					<th>Modérer</th>
 					<th>Statut</th>

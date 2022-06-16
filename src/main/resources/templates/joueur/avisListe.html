@@ -55,44 +55,36 @@ a.disabled {
 				th:if="${list_avis.size() != 0}">
 				<thead>
 					<th>Date d'envoi <a
-						th:href="@{'/joueur/avis/page/0/' + '?sortField=dateEnvoi'+ '&sortDir=asc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/up-long-solid.svg}" alt="tri date ascendant"
-							style="width: 10px"></a> <a
-						th:href="@{'/joueur/avis/page/0/' + '?sortField=dateEnvoi'+ '&sortDir=desc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/down-long-solid.svg}" alt="tri date descendant"
-							style="width: 10px"></a>
+						th:href="@{'/joueur/avis/page/0/' + '?sortField=dateEnvoi'+ '&sortDir=asc'}"><img
+							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
+							alt="tri date ascendant" style="width: 10px"></a> <a
+						th:href="@{'/joueur/avis/page/0/' + '?sortField=dateEnvoi'+ '&sortDir=desc'}"><img
+							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
+							alt="tri date descendant" style="width: 10px"></a>
 					</th>
 					<th>Nom du Jeu <a
-						th:href="@{'/joueur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=asc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/up-long-solid.svg}" alt="tri nom ascendant"
-							style="width: 10px"></a> <a
-						th:href="@{'/joueur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=desc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/down-long-solid.svg}" alt="tri nom descendant"
-							style="width: 10px"></a>
+						th:href="@{'/joueur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=asc'}"><img
+							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
+							alt="tri nom ascendant" style="width: 10px"></a> <a
+						th:href="@{'/joueur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=desc'}"><img
+							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
+							alt="tri nom descendant" style="width: 10px"></a>
 					</th>
 					<th>Pseudo du joueur <a
-						th:href="@{'/joueur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=asc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/up-long-solid.svg}" alt="tri pseudo ascendant"
-							style="width: 10px"></a> <a
-						th:href="@{'/joueur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=desc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/down-long-solid.svg}" alt="tri pseudo descendant"
-							style="width: 10px"></a>
+						th:href="@{'/joueur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=asc'}"><img
+							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
+							alt="tri pseudo ascendant" style="width: 10px"></a> <a
+						th:href="@{'/joueur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=desc'}"><img
+							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
+							alt="tri pseudo descendant" style="width: 10px"></a>
 					</th>
 					<th>Note <a
-						th:href="@{'/joueur/avis/page/0/' + '?sortField=note'+ '&sortDir=asc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/up-long-solid.svg}" alt="tri note ascendant"
-							style="width: 10px"></a> <a
-						th:href="@{'/joueur/avis/page/0/' + '?sortField=note'+ '&sortDir=desc'}"
-						style="margin-right: 300px"><img class="bouttons_navigation"
-							th:src="@{/down-long-solid.svg}" alt="tri note descendant"
-							style="width: 10px"></a>
+						th:href="@{'/joueur/avis/page/0/' + '?sortField=note'+ '&sortDir=asc'}"><img
+							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
+							alt="tri note ascendant" style="width: 10px"></a> <a
+						th:href="@{'/joueur/avis/page/0/' + '?sortField=note'+ '&sortDir=desc'}"><img
+							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
+							alt="tri note descendant" style="width: 10px"></a>
 					</th>
 					<th>Image</th>
 					<th>Statut</th>
