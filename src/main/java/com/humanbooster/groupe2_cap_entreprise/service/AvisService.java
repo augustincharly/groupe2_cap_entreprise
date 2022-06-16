@@ -6,11 +6,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.humanbooster.groupe2_cap_entreprise.configuration.EnvironmentVariable;
 import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Avis;
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
@@ -85,6 +88,15 @@ public class AvisService implements IAvisService {
 		return avisRepository.findById(id).get();
 	}
 
+
+	@Override
+	public Page<Avis> getAllPageAvisSorted(String pseudo, int pageNum, String sortField, String sortDir) {
+		int pageSize = EnvironmentVariable.ITEMS_PER_PAGE;
+		Pageable pageable = PageRequest.of(pageNum, pageSize,
+				sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+		return avisRepository.findAll(pseudo, pageable);
+    }
+
 	public List<AvisDTO> getAvisDTOsWithPagination(String pseudo, Pageable pagination) {
 		List<Avis> avis = avisRepository.findAll(pseudo, pagination).getContent();
 		List<AvisDTO> avisDTOs = new ArrayList<>();
@@ -115,6 +127,7 @@ public class AvisService implements IAvisService {
 	public Page<Avis> getAvisPageDTOsWithPagination(Pageable pagination) {
 		Page<Avis> avisDTOs = avisRepository.findAll(pagination);
 		return avisDTOs;
+
 	}
 
 }

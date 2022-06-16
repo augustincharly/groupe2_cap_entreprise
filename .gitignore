@@ -32,3 +32,6 @@ build/
 
 ### VS Code ###
 .vscode/
+src/main/java/com/humanbooster/groupe2_cap_entreprise/repository/AvisRepository.java
+src/main/java/com/humanbooster/groupe2_cap_entreprise/configuration/EnvironmentVariable.java
+pom.xml

@@ -54,10 +54,22 @@ a.disabled {
 			<table border="true" style="border-collapse: collapse"
 				th:if="${list_avis.size() != 0}">
 				<thead>
-					<th>Date d'envoi</th>
-					<th>Nom du Jeu</th>
-					<th>Pseudo du joueur</th>
-					<th>Note</th>
+          <th>Date d'envoi
+          <a th:href="@{'/joueur/avis/page/0/' + '?sortField=dateEnvoi'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri date ascendant" style="width:10px"></a>
+			    <a th:href="@{'/joueur/avis/page/0/' + '?sortField=dateEnvoi'+ '&sortDir=desc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/down-long-solid.svg}" alt="tri date descendant" style="width:10px"></a>
+			    </th>
+					<th>Nom du Jeu
+          	<a th:href="@{'/joueur/avis/page/0/' + '?sortField=jeu'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri nom ascendant" style="width:10px"></a>
+			    <a th:href="@{'/joueur/avis/page/0/' + '?sortField=jeu'+ '&sortDir=desc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/down-long-solid.svg}" alt="tri nom descendant" style="width:10px"></a>
+			    </th>
+					<th>Pseudo du joueur
+          	<a th:href="@{'/joueur/avis/page/0/' + '?sortField=joueur'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri pseudo ascendant" style="width:10px"></a>
+			<a th:href="@{'/joueur/avis/page/0/' + '?sortField=joueur'+ '&sortDir=desc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/down-long-solid.svg}" alt="tri pseudo descendant" style="width:10px"></a>
+			</th>
+					<th>Note
+          	<a th:href="@{'/joueur/avis/page/0/' + '?sortField=note'+ '&sortDir=asc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/up-long-solid.svg}" alt="tri note ascendant" style="width:10px"></a>
+			<a th:href="@{'/joueur/avis/page/0/' + '?sortField=note'+ '&sortDir=desc'}" style="margin-right: 300px"><img class="bouttons_navigation" th:src="@{/down-long-solid.svg}" alt="tri note descendant" style="width:10px"></a>
+			</th>
 					<th>Image</th>
 					<th>Statut</th>
 					<th>Opérations</th>
@@ -94,12 +106,12 @@ a.disabled {
 				<div style="margin-top: 15px">
 					<div style="display: flex">
 						<div>
-							<a th:href="@{/joueur/avis/page/0}"><img class=" icon"
+							<a th:href="@{'/joueur/avis/page/0?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"><img class=" icon"
 								th:src="@{/angles-left-solid.svg}" alt="icône début"
 								style="width: 10px"></a>
 						</div>
 						<div>
-							<a th:href="@{/joueur/avis/page/{id}(id=${id}-1)}"
+							<a th:href="@{'/joueur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}-1)}"
 								th:if="${id != 0 }"><img class=" icon"
 								th:src="@{/angle-left-solid.svg}" alt="icône début"
 								style="width: 10px"></a>
@@ -108,14 +120,14 @@ a.disabled {
 							<span th:text=${id+1}></span>
 						</div>
 						<div>
-							<a th:href="@{/joueur/avis/page/{id}(id=${id}+1)}"
-								th:if="${id!=nombreDePages-1}"><img class=" icon"
+							<a th:href="@{'/joueur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}+1)}"
+								th:if="${id!=totalPages-1}"><img class=" icon"
 								th:src="@{/angle-right-solid.svg}" alt="icône début"
 								style="width: 10px"></a>
 						</div>
 						<div>
-							<a th:href="@{/joueur/avis/page/{id}(id=${nombreDePages}-1)}"
-								th:if="${id!=nombreDePages-1}"><img class=" icon"
+							<a th:href="@{'/joueur/avis/page/'+ ${totalPages-1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+								th:if="${id!=totalPages-1}"><img class=" icon"
 								th:src="@{/angles-right-solid.svg}" alt="icône début"
 								style="width: 10px"></a>
 						</div>
@@ -127,14 +139,7 @@ a.disabled {
 		</div>
 
 	</div>
+  <script type="text/javascript" th:src="@{/js/avisListe.js}"></script>
 
-
-
-
-
-
-
-
-<script type="text/javascript" th:src="@{/js/avisListe.js}"></script>
 </body>
 </html>
