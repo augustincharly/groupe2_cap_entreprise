@@ -21,7 +21,7 @@ body, html, .container {
 	border: 1px solid blue;
 	color: blue;
 	text-decoration: none;
-	margin: 20px;
+	margin: 20px 20px 20px 0;
 }
 
 .placeholder {
@@ -85,7 +85,7 @@ a.disabled {
 				<div style="display: flex">
 
 					<a class="button" th:href="@{/joueur/avis/new}">Ajouter un
-						avis</a> <a class="button" href="/logout" />Déconnexion</a>
+						avis</a> <a id="logoutButton" class="button" href="/logout" />Déconnexion</a>
 
 				</div>
 
@@ -135,6 +135,6 @@ a.disabled {
 
 
 
-
+<script type="text/javascript" th:src="@{/js/avisListe.js}"></script>
 </body>
 </html>
