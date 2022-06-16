@@ -34,4 +34,6 @@ public interface IJeuService {
 
 	public Page<Jeu> getJeuPageDTOsWithPagination(Pageable pagination);
 
+	public Page<Jeu> getAllPageJeuxSorted(Integer pageNum, String sortField, String sortDir);
+
 }

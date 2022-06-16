@@ -5,9 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import com.humanbooster.groupe2_cap_entreprise.configuration.EnvironmentVariable;
 import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
 import com.humanbooster.groupe2_cap_entreprise.formwrapper.JeuFormWrapper;
@@ -124,6 +127,14 @@ public class JeuService implements IJeuService {
 		}
 				
 		return jeuDTOs;
+	}
+
+	@Override
+	public Page<Jeu> getAllPageJeuxSorted(Integer pageNum, String sortField, String sortDir) {
+		int pageSize = EnvironmentVariable.ITEMS_PER_PAGE;
+		Pageable pageable = PageRequest.of(pageNum, pageSize,
+				sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+		return jeuRepository.findAll(pageable);
 	}
 	
 	
