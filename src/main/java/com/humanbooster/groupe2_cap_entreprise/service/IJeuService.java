@@ -15,6 +15,8 @@ import com.humanbooster.groupe2_cap_entreprise.formwrapper.JeuFormWrapper;
 public interface IJeuService {
 
 	public List<Jeu> getAllJeux();
+	
+	public List<JeuDTO> getAllJeuDTOs();
 
 	public Jeu getJeuByID(Long jeu_id);
 

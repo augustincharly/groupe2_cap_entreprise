@@ -114,6 +114,17 @@ public class JeuService implements IJeuService {
 		Page<Jeu> jeuDTOs =  jeuRepository.findAll(pagination);
 		return jeuDTOs;
 	}
+
+	@Override
+	public List<JeuDTO> getAllJeuDTOs() {
+		List<Jeu> jeux =  jeuRepository.findAll();
+		List<JeuDTO> jeuDTOs = new ArrayList<>();
+		for(Jeu jeuToAdd : jeux) {
+			jeuDTOs.add(TransformerFactory.getJeuTransformer().transform(jeuToAdd));
+		}
+				
+		return jeuDTOs;
+	}
 	
 	
 
