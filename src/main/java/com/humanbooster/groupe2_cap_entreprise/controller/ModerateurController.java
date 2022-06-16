@@ -78,6 +78,7 @@ public class ModerateurController {
 	@Autowired
 	private IModerateurService moderateurService;
 
+
 	@RequestMapping("avis/page/{id}")
 	public String viewPage(Model model, @PathVariable(name = "id") Integer pageNum,
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir) {
@@ -131,13 +132,30 @@ public class ModerateurController {
 	}
 
 	@GetMapping("jeu/page/{id}")
-	public String getJeux(@PathVariable(name = "id") Integer id, Model model) {
-		Pageable pagination = PageRequest.of(id, EnvironmentVariable.ITEMS_PER_PAGE);
-		List<JeuDTO> jeuxDTOs = jeuService.getJeuDTOsWithPagination(pagination);
-		Integer nombreDePages = jeuService.getJeuPageDTOsWithPagination(pagination).getTotalPages();
-		model.addAttribute("nombreDePages", nombreDePages);
-		model.addAttribute("id", id);
-		model.addAttribute("jeux", jeuxDTOs);
+	public String getJeux(@PathVariable(name = "id") Integer pageNum, @Param("sortField") String sortField,
+			@Param("sortDir") String sortDir, Model model) {
+		if (sortField == null) {
+			sortField = "nom";
+		}
+		if (sortDir == null) {
+			sortDir = "asc";
+		}
+
+		List<JeuDTO> jeuxDTOs = new ArrayList<JeuDTO>();
+		Page<Jeu> page = jeuService.getAllPageJeuxSorted(pageNum, sortField, sortDir);
+		List<Jeu> jeux = jeuService.getAllPageJeuxSorted(pageNum, sortField, sortDir).getContent();
+		for (Jeu jeuToAdd : jeux) {
+			jeuxDTOs.add(TransformerFactory.getJeuTransformer().transform(jeuToAdd));
+		}
+		
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+		model.addAttribute("list_jeux", jeuxDTOs);
+		
 		return "moderateur/jeuxListe";
 	}
 

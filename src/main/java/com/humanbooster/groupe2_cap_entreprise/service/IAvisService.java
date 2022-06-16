@@ -1,5 +1,6 @@
 package com.humanbooster.groupe2_cap_entreprise.service;
 
+
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -31,7 +32,6 @@ public interface IAvisService {
 	public void delete(Long id);
 
 	Page<Avis> getAllPageAvisSorted(String pseudo, int pageNum, String sortField, String sortDir);
-
 
 	public List<AvisDTO> getAvisDTOsWithPagination(String pseudo, Pageable pagination);
 

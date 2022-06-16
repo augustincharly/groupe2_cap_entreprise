@@ -51,12 +51,25 @@ a.disabled {
 				style="border-collapse: collapse; margin-bottom: 25px">
 				<thead>
 					<th>Image</th>
-					<th>Nom</th>
-					<th>Editeur</th>
+					<th>Nom <a
+						th:href="@{'/moderateur/jeu/page/0/' + '?sortField=nom'+ '&sortDir=asc'}"><img
+							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
+							alt="tri date ascendant" style="width: 10px"></a> <a
+						th:href="@{'/moderateur/jeu/page/0/' + '?sortField=nom'+ '&sortDir=desc'}"><img
+							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
+							alt="tri date descendant" style="width: 10px"></a></th>
+					<th>Editeur <a
+						th:href="@{'/moderateur/jeu/page/0/' + '?sortField=editeur.nom'+ '&sortDir=asc'}"><img
+							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
+							alt="tri nom ascendant" style="width: 10px"></a> <a
+						th:href="@{'/moderateur/jeu/page/0/' + '?sortField=editeur.nom'+ '&sortDir=desc'}"><img
+							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
+							alt="tri nom descendant" style="width: 10px"></a>
+					</th>
 					<th>Opérations</th>
 				</thead>
 				<tbody>
-					<tr th:each="jeu: ${jeux}">
+					<tr th:each="jeu: ${list_jeux}">
 						<td style="padding: 5px"><img style="width: 100px"
 							th:src="@{${jeu.image}}" /></td>
 						<td style="padding: 5px"><span th:text="${jeu.nom}" /></td>
@@ -76,8 +89,8 @@ a.disabled {
 				<div style="display: flex">
 
 					<a th:href="@{/moderateur/jeu/new}" class="button">Ajouter un
-						jeu</a> <a class="button" th:href="@{/moderateur/avis/page/0}">Liste des avis</a> <a
-						class="button" id="logoutButton" href="/logout" />Déconnexion</a>
+						jeu</a> <a class="button" th:href="@{/moderateur/avis/page/0}">Liste
+						des avis</a> <a class="button" id="logoutButton" href="/logout" />Déconnexion</a>
 
 				</div>
 
@@ -86,12 +99,14 @@ a.disabled {
 				<div style="margin-top: 15px">
 					<div style="display: flex">
 						<div>
-							<a th:href="@{/moderateur/jeu/page/0}"><img class=" icon"
-								th:src="@{/angles-left-solid.svg}" alt="icône début"
-								style="width: 10px"></a>
+							<a
+								th:href="@{'/moderateur/jeu/page/0?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"><img
+								class=" icon" th:src="@{/angles-left-solid.svg}"
+								alt="icône début" style="width: 10px"></a>
 						</div>
 						<div>
-							<a th:href="@{/moderateur/jeu/page/{id}(id=${id}-1)}"
+							<a
+								th:href="@{'/moderateur/jeu/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}-1)}"
 								th:if="${id != 0 }"><img class=" icon"
 								th:src="@{/angle-left-solid.svg}" alt="icône début"
 								style="width: 10px"></a>
@@ -100,14 +115,16 @@ a.disabled {
 							<span th:text=${id+1}></span>
 						</div>
 						<div>
-							<a th:href="@{/moderateur/jeu/page/{id}(id=${id}+1)}"
-								th:if="${id!=nombreDePages-1}"><img class=" icon"
+							<a
+								th:href="@{'/moderateur/jeu/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}+1)}"
+								th:if="${id!=totalPages-1}"><img class=" icon"
 								th:src="@{/angle-right-solid.svg}" alt="icône début"
 								style="width: 10px"></a>
 						</div>
 						<div>
-							<a th:href="@{/moderateur/jeu/page/{id}(id=${nombreDePages}-1)}"
-								th:if="${id!=nombreDePages-1}"><img class=" icon"
+							<a
+								th:href="@{'/moderateur/jeu/page/'+ ${totalPages-1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+								th:if="${id!=totalPages-1}"><img class=" icon"
 								th:src="@{/angles-right-solid.svg}" alt="icône début"
 								style="width: 10px"></a>
 						</div>
@@ -120,6 +137,6 @@ a.disabled {
 		</div>
 	</div>
 
-<script type="text/javascript" th:src="@{/js/jeuListe.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jeuListe.js}"></script>
 </body>
 </html>
