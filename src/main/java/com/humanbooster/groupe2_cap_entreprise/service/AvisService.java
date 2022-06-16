@@ -88,14 +88,13 @@ public class AvisService implements IAvisService {
 		return avisRepository.findById(id).get();
 	}
 
-
 	@Override
 	public Page<Avis> getAllPageAvisSorted(String pseudo, int pageNum, String sortField, String sortDir) {
 		int pageSize = EnvironmentVariable.ITEMS_PER_PAGE;
 		Pageable pageable = PageRequest.of(pageNum, pageSize,
 				sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
 		return avisRepository.findAll(pseudo, pageable);
-    }
+	}
 
 	public List<AvisDTO> getAvisDTOsWithPagination(String pseudo, Pageable pagination) {
 		List<Avis> avis = avisRepository.findAll(pseudo, pagination).getContent();
@@ -127,6 +126,15 @@ public class AvisService implements IAvisService {
 	public Page<Avis> getAvisPageDTOsWithPagination(Pageable pagination) {
 		Page<Avis> avisDTOs = avisRepository.findAll(pagination);
 		return avisDTOs;
+
+	}
+
+	@Override
+	public Page<Avis> getAllPageAvisSortedModerateur(Integer pageNum, String sortField, String sortDir) {
+		int pageSize = EnvironmentVariable.ITEMS_PER_PAGE;
+		Pageable pageable = PageRequest.of(pageNum, pageSize,
+				sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+		return avisRepository.findAll(pageable);
 
 	}
 

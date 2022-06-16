@@ -66,10 +66,37 @@ a.disabled {
 			<table border="true" style="border-collapse: collapse"
 				th:if="${list_avis.size() != 0}">
 				<thead>
-					<th>Joueur</th>
-					<th>Jeu</th>
+					<th>Joueur <a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=asc'}"
+						style="margin-right: 300px"><img class="bouttons_navigation"
+							th:src="@{/up-long-solid.svg}" alt="tri pseudo ascendant"
+							style="width: 10px"></a> <a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=desc'}"
+						style="margin-right: 300px"><img class="bouttons_navigation"
+							th:src="@{/down-long-solid.svg}" alt="tri pseudo descendant"
+							style="width: 10px"></a>
+					</th>
+					<th>Jeu <a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=asc'}"
+						style="margin-right: 300px"><img class="bouttons_navigation"
+							th:src="@{/up-long-solid.svg}" alt="tri nom ascendant"
+							style="width: 10px"></a> <a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=desc'}"
+						style="margin-right: 300px"><img class="bouttons_navigation"
+							th:src="@{/down-long-solid.svg}" alt="tri nom descendant"
+							style="width: 10px"></a>
+					</th>
 					<th>Description</th>
-					<th>Note</th>
+					<th>Note <a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=note'+ '&sortDir=asc'}"
+						style="margin-right: 300px"><img class="bouttons_navigation"
+							th:src="@{/up-long-solid.svg}" alt="tri note ascendant"
+							style="width: 10px"></a> <a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=note'+ '&sortDir=desc'}"
+						style="margin-right: 300px"><img class="bouttons_navigation"
+							th:src="@{/down-long-solid.svg}" alt="tri note descendant"
+							style="width: 10px"></a>
+					</th>
 					<th>Modérer</th>
 					<th>Statut</th>
 				</thead>
@@ -98,12 +125,14 @@ a.disabled {
 			<div style="margin-top: 15px">
 				<div style="display: flex">
 					<div>
-						<a th:href="@{/moderateur/avis/page/0}"><img class=" icon"
-							th:src="@{/angles-left-solid.svg}" alt="icône début"
-							style="width: 10px"></a>
+						<a
+							th:href="@{'/moderateur/avis/page/0?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"><img
+							class=" icon" th:src="@{/angles-left-solid.svg}"
+							alt="icône début" style="width: 10px"></a>
 					</div>
 					<div>
-						<a th:href="@{/moderateur/avis/page/{id}(id=${id}-1)}"
+						<a
+							th:href="@{'/moderateur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}-1)}"
 							th:if="${id != 0 }"><img class=" icon"
 							th:src="@{/angle-left-solid.svg}" alt="icône début"
 							style="width: 10px"></a>
@@ -112,14 +141,16 @@ a.disabled {
 						<span th:text=${id+1}></span>
 					</div>
 					<div>
-						<a th:href="@{/moderateur/avis/page/{id}(id=${id}+1)}"
-							th:if="${id!=nombreDePages-1}"><img class=" icon"
+						<a
+							th:href="@{'/moderateur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}+1)}"
+							th:if="${id!=totalPages-1}"><img class=" icon"
 							th:src="@{/angle-right-solid.svg}" alt="icône début"
 							style="width: 10px"></a>
 					</div>
 					<div>
-						<a th:href="@{/moderateur/avis/page/{id}(id=${nombreDePages}-1)}"
-							th:if="${id!=nombreDePages-1}"><img class=" icon"
+						<a
+							th:href="@{'/moderateur/avis/page/'+ ${totalPages-1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+							th:if="${id!=totalPages-1}"><img class=" icon"
 							th:src="@{/angles-right-solid.svg}" alt="icône début"
 							style="width: 10px"></a>
 					</div>
@@ -130,6 +161,6 @@ a.disabled {
 		</div>
 	</div>
 
-<script type="text/javascript" th:src="@{/js/avisListe.js}"></script>
+	<script type="text/javascript" th:src="@{/js/avisListe.js}"></script>
 </body>
 </html>
