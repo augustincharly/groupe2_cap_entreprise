@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -44,6 +46,7 @@ import com.humanbooster.groupe2_cap_entreprise.service.IAvisService;
 import com.humanbooster.groupe2_cap_entreprise.service.IJeuService;
 import com.humanbooster.groupe2_cap_entreprise.service.IModeleEconomiqueService;
 import com.humanbooster.groupe2_cap_entreprise.service.IPlateformeService;
+import com.humanbooster.groupe2_cap_entreprise.transformer.TransformerFactory;
 
 @Controller
 @RequestMapping("moderateur")
@@ -76,9 +79,9 @@ public class ModerateurController {
 	private IModerateurService moderateurService;
 
 	@GetMapping("avis/page/{page}")
-	public String getAvis(@PathVariable(name="page")Integer numPage, Model model) {
+	public String getAvis(@PathVariable(name = "page") Integer numPage, Model model) {
 		Pageable pagination = PageRequest.of(numPage, EnvironmentVariable.ITEMS_PER_PAGE);
-		List<AvisDTO> avisDTOs = avisService.getAvisDTOsWithPagination(pagination);	
+		List<AvisDTO> avisDTOs = avisService.getAvisDTOsWithPagination(pagination);
 		Integer nombreDePages = avisService.getAvisPageDTOsWithPagination(pagination).getTotalPages();
 		model.addAttribute("nombreDePages", nombreDePages);
 		model.addAttribute("id", numPage);
@@ -106,7 +109,7 @@ public class ModerateurController {
 	@GetMapping("avis/{id}/validate")
 	public ModelAndView validateAvis(@PathVariable(name = "id") Long id) {
 		Avis avis = avisService.getAvis(id);
-		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String pseudo = authentication.getName().toString();
 		Moderateur moderateur = moderateurService.getModerateurByPseudo(pseudo);
 		avisService.validateAvis(avis, moderateur);
@@ -114,13 +117,30 @@ public class ModerateurController {
 	}
 
 	@GetMapping("jeu/page/{id}")
-	public String getJeux(@PathVariable(name="id") Integer id, Model model) {
-		Pageable pagination = PageRequest.of(id, EnvironmentVariable.ITEMS_PER_PAGE);
-		List<JeuDTO> jeuxDTOs = jeuService.getJeuDTOsWithPagination(pagination);	
-		Integer nombreDePages = jeuService.getJeuPageDTOsWithPagination(pagination).getTotalPages();
-		model.addAttribute("nombreDePages", nombreDePages);
-		model.addAttribute("id", id);
-		model.addAttribute("jeux", jeuxDTOs);
+	public String getJeux(@PathVariable(name = "id") Integer pageNum, @Param("sortField") String sortField,
+			@Param("sortDir") String sortDir, Model model) {
+		if (sortField == null) {
+			sortField = "nom";
+		}
+		if (sortDir == null) {
+			sortDir = "asc";
+		}
+
+		List<JeuDTO> jeuxDTOs = new ArrayList<JeuDTO>();
+		Page<Jeu> page = jeuService.getAllPageJeuxSorted(pageNum, sortField, sortDir);
+		List<Jeu> jeux = jeuService.getAllPageJeuxSorted(pageNum, sortField, sortDir).getContent();
+		for (Jeu jeuToAdd : jeux) {
+			jeuxDTOs.add(TransformerFactory.getJeuTransformer().transform(jeuToAdd));
+		}
+		
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+		model.addAttribute("list_jeux", jeuxDTOs);
+		
 		return "moderateur/jeuxListe";
 	}
 
@@ -198,8 +218,7 @@ public class ModerateurController {
 	}
 
 	@PostMapping("jeu/{id}/update")
-	public ModelAndView postUpdateJeu(@PathVariable(name = "id") Long id,
-			@ModelAttribute JeuFormWrapper updatedJeu) {
+	public ModelAndView postUpdateJeu(@PathVariable(name = "id") Long id, @ModelAttribute JeuFormWrapper updatedJeu) {
 		Jeu jeu = jeuService.getJeuByID(id);
 
 		Classification classification = classificationService.findClassificationById(updatedJeu.getClassification_id());
