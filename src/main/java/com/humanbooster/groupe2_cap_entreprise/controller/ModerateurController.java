@@ -78,13 +78,28 @@ public class ModerateurController {
 	@Autowired
 	private IModerateurService moderateurService;
 
-	@GetMapping("avis/page/{page}")
-	public String getAvis(@PathVariable(name = "page") Integer numPage, Model model) {
-		Pageable pagination = PageRequest.of(numPage, EnvironmentVariable.ITEMS_PER_PAGE);
-		List<AvisDTO> avisDTOs = avisService.getAvisDTOsWithPagination(pagination);
-		Integer nombreDePages = avisService.getAvisPageDTOsWithPagination(pagination).getTotalPages();
-		model.addAttribute("nombreDePages", nombreDePages);
-		model.addAttribute("id", numPage);
+
+	@RequestMapping("avis/page/{id}")
+	public String viewPage(Model model, @PathVariable(name = "id") Integer pageNum,
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir) {
+		if (sortField == null) {
+			sortField = "jeu";
+		}
+		if (sortDir == null) {
+			sortDir = "asc";
+		}
+		List<AvisDTO> avisDTOs = new ArrayList<>();
+		Page<Avis> page = avisService.getAllPageAvisSortedModerateur(pageNum, sortField, sortDir);
+		List<Avis> avis = avisService.getAllPageAvisSortedModerateur(pageNum, sortField, sortDir).getContent();
+		for (Avis avisToAdd : avis) {
+			avisDTOs.add(TransformerFactory.getAvisTransformer().transform(avisToAdd));
+		}
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 		model.addAttribute("list_avis", avisDTOs);
 
 		return "moderateur/avisListe";
