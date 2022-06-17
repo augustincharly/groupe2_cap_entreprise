@@ -3,35 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <title>Ajout d'un avis</title>
+<style>
+body, html, .container {
+	height: 90%;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+	padding: 10px;
+	border-radius: 3px;
+	border: 1px solid blue;
+	color: blue;
+	text-decoration: none;
+	margin: 20px 20px 20px 0;
+}
+
+.button:hover {
+	cursor: pointer;
+}
+</style>
 </head>
 <body>
-	<h1>Ajout d'un avis</h1>
-	<form method="post" th:action="@{/joueur/avis/new}" th:object="${jeux_avis}">
-		<div style="display:flex">
-		<label style="display:block;width:100px" for="jeu-select">Jeu:</label>
-		<select  id="jeu-select" th:field="*{jeu_id}" required autofocus>
-			<option value="" selected hidden>Choisir un jeu</option>
-		    <option type="text" th:each="jeu : ${jeux}"  th:value="${jeu.id}" th:text="${jeu.nom}">jeu</option>
-		</select>
+
+	<div class="container">
+		<div>
+			<h1>Ajout d'un avis</h1>
+			<form method="post" th:action="@{/joueur/avis/new}"
+				th:object="${jeux_avis}">
+				<div style="display: flex">
+					<label style="display: block; width: 100px" for="jeu-select">Jeu:</label>
+					<select id="jeu-select" th:field="*{jeu_id}" required autofocus>
+						<option value="" selected hidden>Choisir un jeu</option>
+						<option type="text" th:each="jeu : ${jeux}" th:value="${jeu.id}"
+							th:text="${jeu.nom}">jeu</option>
+					</select>
+				</div>
+				<br>
+				<div style="display: flex">
+					<label style="display: block; width: 100px" for="jeu-description">Description</label>
+					<textarea id="jeu-description" placeholder="Ecrire votre avis"
+						th:field="*{avis_description}" required></textarea>
+				</div>
+				<br>
+				<div style="display: flex">
+					<label style="display: block; width: 100px" for="note-select">Note:</label>
+					<select id="note-select" th:field="*{avis_note}" required>
+						<option value="" selected hidden>Attribuer une note</option>
+						<option type="number" step="0.01" th:each="note : ${notes}"
+							th:value="${note}" th:text="${note}">Note</option>
+					</select>
+				</div>
+				<br> <br>
+				<button type="submit" class="button">Enregistrer</button>
+			</form>
 		</div>
-		<br>
-		<div style="display:flex">
-		<label style="display:block;width:100px" for="jeu-description">Description</label>
-		<textarea id="jeu-description" placeholder="Ecrire votre avis"
-                                      th:field="*{avis_description}" required></textarea>
-		</div>
-		<br>
-		<div style="display:flex">
-		<label style="display:block;width:100px" for="note-select">Note:</label>
-		<select id="note-select" th:field="*{avis_note}" required>
-			<option value="" selected hidden>Attribuer une note</option>
-			<option type="number" step="0.01" th:each="note : ${notes}" th:value="${note}" th:text="${note}">Note</option>
-		</select>
-		</div>
-		<br>
-		<br>
-		<button type="submit">Enregistrer</button>
-	</form>
-	
+
+	</div>
+
+
 </body>
 </html>
