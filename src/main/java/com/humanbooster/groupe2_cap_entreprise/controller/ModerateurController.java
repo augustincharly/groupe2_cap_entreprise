@@ -52,7 +52,7 @@ import com.humanbooster.groupe2_cap_entreprise.transformer.TransformerFactory;
 @RequestMapping("moderateur")
 public class ModerateurController {
 
-	private final String UPLOADED_FOLDER = "D:\\Mes documents\\Mon code\\eclipse-workspace\\groupe2_cap_entreprise\\groupe2_cap_entreprise\\src\\main\\resources\\static\\";
+	
 	private final String UPLOADED_DIR = "/";
 
 	@Autowired
@@ -287,7 +287,7 @@ public class ModerateurController {
 
 			// Get the file and save it somewhere
 			byte[] bytes = file.getBytes();
-			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+			Path path = Paths.get(EnvironmentVariable.DIR_UPLOADED_IMAGE_STRING + file.getOriginalFilename());
 			Files.write(path, bytes);
 
 			attributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'");
