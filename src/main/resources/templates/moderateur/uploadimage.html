@@ -1,26 +1,57 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Boot & Thymeleaf File Upload</title>
+<title>Spring Boot & Thymeleaf File Upload</title>
 </head>
-<body>
+<style>
+body, html, .container {
+	height: 90%;
+}
 
-<section>
-    <div >
-        <div >
-            <div >
-                <h2>Téléversement d'image du jeu</h2>
-                <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
-                <form method="post" th:action="@{/moderateur/jeu/{id}/uploadimage(id=${jeu.id})}" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <input type="file" name="file">
-                    </div>
-                    <button type="submit" >soumettre</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+	padding: 10px;
+	border-radius: 3px;
+	border: 1px solid blue;
+	color: blue;
+	text-decoration: none;
+	margin: 20px 20px 20px 0;
+}
+
+.button:hover {
+	cursor: pointer;
+}
+</style>
+<body>
+	<div class="container">
+		<div>
+			<section>
+				<div>
+					<div>
+						<div>
+							<h2>Téléversement d'image du jeu</h2>
+							<p th:text="${message}" th:if="${message ne null}"
+								class="alert alert-primary"></p>
+							<form method="post"
+								th:action="@{/moderateur/jeu/{id}/uploadimage(id=${jeu.id})}"
+								enctype="multipart/form-data">
+								<div class="form-group">
+									<input type="file" name="file">
+								</div>
+								<button class="button" type="submit">soumettre</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
 
 </body>
 </html>
