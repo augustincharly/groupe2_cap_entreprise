@@ -80,7 +80,7 @@ body, html, .container {
 				<div style="display: flex">
 					<legend>Plateformes :</legend>
 					<div th:each="plateforme : ${plateformes}">
-						<input type="checkbox" th:field="*{plateformes_id}" required
+						<input type="checkbox" th:field="*{plateformes_id}"
 							th:value="${plateforme.id}"> <label
 							th:text="${plateforme.nom}"></label>
 					</div>
