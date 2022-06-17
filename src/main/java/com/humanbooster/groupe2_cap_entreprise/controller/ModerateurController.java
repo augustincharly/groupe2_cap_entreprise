@@ -6,11 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,6 +37,7 @@ import com.humanbooster.groupe2_cap_entreprise.entity.Genre;
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
 import com.humanbooster.groupe2_cap_entreprise.entity.ModeleEconomique;
 import com.humanbooster.groupe2_cap_entreprise.entity.Plateforme;
+import com.humanbooster.groupe2_cap_entreprise.formwrapper.FilterWrapper;
 import com.humanbooster.groupe2_cap_entreprise.formwrapper.JeuFormWrapper;
 import com.humanbooster.groupe2_cap_entreprise.service.IClassificationService;
 import com.humanbooster.groupe2_cap_entreprise.service.IEditeurService;
@@ -47,12 +47,12 @@ import com.humanbooster.groupe2_cap_entreprise.service.IJeuService;
 import com.humanbooster.groupe2_cap_entreprise.service.IModeleEconomiqueService;
 import com.humanbooster.groupe2_cap_entreprise.service.IPlateformeService;
 import com.humanbooster.groupe2_cap_entreprise.transformer.TransformerFactory;
+import com.humanbooster.groupe2_cap_entreprise.utils.PaginatedList;
 
 @Controller
 @RequestMapping("moderateur")
 public class ModerateurController {
 
-	
 	private final String UPLOADED_DIR = "/";
 
 	@Autowired
@@ -78,31 +78,51 @@ public class ModerateurController {
 	@Autowired
 	private IModerateurService moderateurService;
 
-
 	@RequestMapping("avis/page/{id}")
 	public String viewPage(Model model, @PathVariable(name = "id") Integer pageNum,
-			@Param("sortField") String sortField, @Param("sortDir") String sortDir) {
-		if (sortField == null) {
-			sortField = "jeu";
+			@RequestParam(defaultValue = "jeu", name = "sortField") String sortField,
+			@RequestParam(defaultValue = "asc", name = "sortDir") String sortDir,
+			@RequestParam(defaultValue = "null", name = "moderated") String statut) {
+
+		List<Avis> avisListe = avisService.getAllAvisSorted(sortField, sortDir);
+
+		if (!statut.equals("null")) {
+			if (statut.equals("true")) {
+				avisListe = avisListe.stream().filter(avis -> avis.getModerateur() != null)
+						.collect(Collectors.toList());
+			} else {
+				avisListe = avisListe.stream().filter(avis -> avis.getModerateur() == null)
+						.collect(Collectors.toList());
+			}
+
 		}
-		if (sortDir == null) {
-			sortDir = "asc";
+		List<AvisDTO> avisDTOsToDisplay = new ArrayList<>();
+		PaginatedList<Avis> paginatedList = new PaginatedList<Avis>(avisListe);
+		List<Avis> pageEnCours = paginatedList.getPage(pageNum + 1);
+		for (Avis avisToAdd : pageEnCours) {
+			avisDTOsToDisplay.add(TransformerFactory.getAvisTransformer().transform(avisToAdd));
 		}
-		List<AvisDTO> avisDTOs = new ArrayList<>();
-		Page<Avis> page = avisService.getAllPageAvisSortedModerateur(pageNum, sortField, sortDir);
-		List<Avis> avis = avisService.getAllPageAvisSortedModerateur(pageNum, sortField, sortDir).getContent();
-		for (Avis avisToAdd : avis) {
-			avisDTOs.add(TransformerFactory.getAvisTransformer().transform(avisToAdd));
-		}
+
 		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("totalPages", paginatedList.numberOfPages());
+		model.addAttribute("totalItems", paginatedList.getTotalItems());
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("statutFilter", statut);
 		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-		model.addAttribute("list_avis", avisDTOs);
+		model.addAttribute("list_avis", avisDTOsToDisplay);
+		model.addAttribute("filterWrapper", new FilterWrapper());
 
 		return "moderateur/avisListe";
+	}
+
+	@PostMapping("avis/page/{id}")
+	public ModelAndView viewPagePost(Model model, @PathVariable(name = "id") Integer pageNum,
+			@ModelAttribute FilterWrapper filterWrapper) {
+		Boolean statut = filterWrapper.getModerated();
+		ModelAndView modelAndView = new ModelAndView(
+				"redirect:/moderateur/avis/page/0?sortField=jeu&sortDir=asc&moderated=" + statut);
+		return modelAndView;
 	}
 
 	@GetMapping("avis/{id}")
@@ -147,7 +167,7 @@ public class ModerateurController {
 		for (Jeu jeuToAdd : jeux) {
 			jeuxDTOs.add(TransformerFactory.getJeuTransformer().transform(jeuToAdd));
 		}
-		
+
 		model.addAttribute("currentPage", pageNum);
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("totalItems", page.getTotalElements());
@@ -155,7 +175,7 @@ public class ModerateurController {
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 		model.addAttribute("list_jeux", jeuxDTOs);
-		
+
 		return "moderateur/jeuxListe";
 	}
 
