@@ -45,5 +45,7 @@ public interface IAvisService {
 
 	List<Avis> getAllAvisSorted(String pseudo, String sortField, String sortDir);
 
+	public List<Avis> getAllAvisSorted(String sortField, String sortDir);
+
 
 }

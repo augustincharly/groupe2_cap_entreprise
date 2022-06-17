@@ -150,4 +150,11 @@ public class AvisService implements IAvisService {
 		return avisRepository.findAll(pseudo, pageable).getContent();
 	}
 
+	@Override
+	public List<Avis> getAllAvisSorted(String sortField, String sortDir) {
+		Pageable pageable = PageRequest.of(0, 100,
+				sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+		return avisRepository.findAll(pageable).getContent();
+	}
+
 }
