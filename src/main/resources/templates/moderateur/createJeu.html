@@ -3,64 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <title>Ajout d'un jeu</title>
+<style>
+body, html, .container {
+	height: 90%;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.button {
+	padding: 10px;
+	border-radius: 3px;
+	border: 1px solid blue;
+	color: blue;
+	text-decoration: none;
+	margin: 20px 20px 20px 0;
+}
+
+.button:hover {
+	cursor: pointer;
+}
+</style>
 </head>
 <body>
-	<h1>Ajout d'un Jeu</h1>
-	<form method="post" th:action="@{/moderateur/jeu/new}" th:object="${createJeu}">
-		<div style="display:flex">
-		<label style="display:block;width:100px" for="jeu-description">Nom :</label>
-		<input type="text" id="jeu-description" placeholder="Ecrire le nom du jeu"
-                                      th:field="*{jeu_nom}"/>
-         </div>
-		<div style="display:flex">
-		<label style="display:block;width:100px" for="editeur-select">Editeur :</label>
-		<select  id="editeur-select" th:field="*{editeur_id}">
-			<option value="" selected hidden>Choisir un éditeur</option>
-		    <option type="text" th:each="editeur : ${editeurs}"  th:value="${editeur.id}" th:text="${editeur.nom}"></option>
-		</select>
-		</div>
-		<div style="display:flex">
-		<label style="display:block;width:100px" for="date-select">Date de sortie :</label>
-		<input type="date"  th:field="*{dateDeSortie}" th:text="${#dates.format(dateDeSortie, 'dd/MM/yyyy')}"/>
-		</div>
-		<div style="display:flex">
-		<label style="display:block;width:100px" for="jeu-description">Description :</label>
-		<textarea id="jeu-description" placeholder="Ecrire votre avis"
-                                      th:field="*{jeu_description}"></textarea>
-		</div>
-		<div style="display:flex">
-		<label style="display:block;width:100px" for="genre-select">Genre :</label>
-		<select  id="genre-select" th:field="*{genre_id}">
-			<option value="" selected hidden>Choisir un genre</option>
-		    <option type="text" th:each="genre : ${genres}"  th:value="${genre.id}" th:text="${genre.nom}"></option>
-		</select>
-		</div>
-		<div style="display:flex">
-		<label style="display:block;width:100px" for="classification-select">Genre :</label>
-		<select  id="classification-select" th:field="*{classification_id}">
-			<option value="" selected hidden>Choisir une classification</option>
-		    <option type="text" th:each="classification : ${classifications}"  th:value="${classification.id}" th:text="${classification.nom}"></option>
-		</select>
-		</div>
-		<div style="display:flex">
-	    <legend>Plateformes :</legend>
-	    <div th:each="plateforme : ${plateformes}">
-	      <input  type="checkbox" th:field="*{plateformes_id}" th:value="${plateforme.id}" >
-	      <label  th:text="${plateforme.nom}" ></label>
-	    </div>
-		</div>
-		<div style="display:flex">
-		<label style="display:block;width:100px" for="modeleEconomique-select">Modèle économique :</label>
-		<select  id="modeleEconomique-select" th:field="*{modeleEconomique_id}">
-			<option value="" selected hidden>Choisir un modèle économique</option>
-		    <option type="text" th:each="modeleEconomique : ${modeleEconomiques}"  th:value="${modeleEconomique.id}" th:text="${modeleEconomique.nom}"></option>
-		</select>
-		</div>
 
-		<br>
-		<br>
-		<button type="submit">Enregistrer</button>
-	</form>
-	
+	<div class="container">
+
+		<div>
+			<h1>Ajout d'un Jeu</h1>
+			<form method="post" th:action="@{/moderateur/jeu/new}"
+				th:object="${createJeu}">
+				<div style="display: flex">
+					<label style="display: block; width: 100px" for="jeu-description">Nom
+						:</label> <input type="text" id="jeu-description"
+						placeholder="Ecrire le nom du jeu" th:field="*{jeu_nom}" />
+				</div>
+				<div style="display: flex">
+					<label style="display: block; width: 100px" for="editeur-select">Editeur
+						:</label> <select id="editeur-select" th:field="*{editeur_id}">
+						<option value="" selected hidden>Choisir un éditeur</option>
+						<option type="text" th:each="editeur : ${editeurs}"
+							th:value="${editeur.id}" th:text="${editeur.nom}"></option>
+					</select>
+				</div>
+				<div style="display: flex">
+					<label style="display: block; width: 100px" for="date-select">Date
+						de sortie :</label> <input type="date" th:field="*{dateDeSortie}"
+						th:text="${#dates.format(dateDeSortie, 'dd/MM/yyyy')}" />
+				</div>
+				<div style="display: flex">
+					<label style="display: block; width: 100px" for="jeu-description">Description
+						:</label>
+					<textarea id="jeu-description" placeholder="Ecrire votre avis"
+						th:field="*{jeu_description}"></textarea>
+				</div>
+				<div style="display: flex">
+					<label style="display: block; width: 100px" for="genre-select">Genre
+						:</label> <select id="genre-select" th:field="*{genre_id}">
+						<option value="" selected hidden>Choisir un genre</option>
+						<option type="text" th:each="genre : ${genres}"
+							th:value="${genre.id}" th:text="${genre.nom}"></option>
+					</select>
+				</div>
+				<div style="display: flex">
+					<label style="display: block; width: 100px"
+						for="classification-select">Genre :</label> <select
+						id="classification-select" th:field="*{classification_id}">
+						<option value="" selected hidden>Choisir une
+							classification</option>
+						<option type="text" th:each="classification : ${classifications}"
+							th:value="${classification.id}" th:text="${classification.nom}"></option>
+					</select>
+				</div>
+				<div style="display: flex">
+					<legend>Plateformes :</legend>
+					<div th:each="plateforme : ${plateformes}">
+						<input type="checkbox" th:field="*{plateformes_id}"
+							th:value="${plateforme.id}"> <label
+							th:text="${plateforme.nom}"></label>
+					</div>
+				</div>
+				<div style="display: flex">
+					<label style="display: block; width: 100px"
+						for="modeleEconomique-select">Modèle économique :</label> <select
+						id="modeleEconomique-select" th:field="*{modeleEconomique_id}">
+						<option value="" selected hidden>Choisir un modèle
+							économique</option>
+						<option type="text"
+							th:each="modeleEconomique : ${modeleEconomiques}"
+							th:value="${modeleEconomique.id}"
+							th:text="${modeleEconomique.nom}"></option>
+					</select>
+				</div>
+
+				<br> <br>
+				<button class="button" type="submit">Enregistrer</button>
+			</form>
+		</div>
+	</div>
+
+
 </body>
 </html>
