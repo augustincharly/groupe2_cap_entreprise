@@ -1,6 +1,7 @@
 package com.humanbooster.groupe2_cap_entreprise.controller;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -307,10 +308,9 @@ public class ModerateurController {
 
 			// Get the file and save it somewhere
 			byte[] bytes = file.getBytes();
-			Path path = Paths.get(EnvironmentVariable.DIR_UPLOADED_IMAGE_STRING + file.getOriginalFilename());
+			Path path = Paths.get(EnvironmentVariable.PROJECT_DIR + EnvironmentVariable.UPLOADED_IMAGE_DIR + file.getOriginalFilename());
 			Files.write(path, bytes);
-
-			attributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'");
+						attributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'");
 			Jeu jeu = jeuService.getJeuByID(id);
 			jeu.setImage(UPLOADED_DIR + file.getOriginalFilename());
 			jeuService.save(jeu);
