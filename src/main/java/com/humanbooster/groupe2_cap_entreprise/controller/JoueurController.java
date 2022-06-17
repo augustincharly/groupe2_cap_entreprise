@@ -48,21 +48,21 @@ public class JoueurController {
 	public String viewPage(Model model, @PathVariable(name = "id") Integer pageNum,
 			@RequestParam(defaultValue = "jeu", name = "sortField") String sortField,
 			@RequestParam(defaultValue = "asc", name = "sortDir") String sortDir,
-			@RequestParam(defaultValue = "none", name = "jeuFilter") String jeuId,
-			@RequestParam(defaultValue = "none", name = "joueurFilter") String joueurId,
-			@RequestParam(defaultValue = "none", name = "moderated") String statut) {
+			@RequestParam(defaultValue = "null", name = "jeuFilter") String jeuId,
+			@RequestParam(defaultValue = "null", name = "joueurFilter") String joueurId,
+			@RequestParam(defaultValue = "null", name = "moderated") String statut) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String thispseudojoueur = authentication.getName().toString();
 		List<Avis> avisListe = avisService.getAllAvisSorted(thispseudojoueur, sortField, sortDir);
-		if (!jeuId.equals("none")) {
+		if (!jeuId.equals("null")) {
 			avisListe = avisListe.stream().filter(avis -> avis.getJeu().getId() == Utils.stringToLong(jeuId))
 					.collect(Collectors.toList());
 		}
-		if (!joueurId.equals("none")) {
+		if (!joueurId.equals("null")) {
 			avisListe = avisListe.stream().filter(avis -> avis.getJoueur().getId() == Utils.stringToLong(joueurId))
 					.collect(Collectors.toList());
 		}
-		if (!statut.equals("none")) {
+		if (!statut.equals("null")) {
 			if (statut.equals("true")) {
 				avisListe = avisListe.stream().filter(avis -> avis.getModerateur() != null)
 						.collect(Collectors.toList());
@@ -102,9 +102,11 @@ public class JoueurController {
 	@PostMapping("avis/page/{id}")
 	public ModelAndView viewPagePost(Model model, @PathVariable(name = "id") Integer pageNum,
 			@ModelAttribute FilterWrapper filterWrapper) {
+		System.out.println(filterWrapper);
 		Long jeuId = filterWrapper.getJeu_id();
 		Long joueurId = filterWrapper.getJoueur_id();
-		boolean statut = filterWrapper.getModerated();
+		Boolean statut = filterWrapper.getModerated();
+		
 		ModelAndView modelAndView = new ModelAndView("redirect:/joueur/avis/page/0?sortField=jeu&sortDir=asc&jeuFilter="
 				+ jeuId + "&joueurFilter=" + joueurId + "&moderated=" + statut);
 		return modelAndView;
