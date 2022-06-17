@@ -91,7 +91,13 @@ a.disabled {
 							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
 							alt="tri note descendant" style="width: 10px"></a>
 					</th>
-					<th>Modérer</th>
+					<th>Modérer<a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=moderateur.pseudo'+ '&sortDir=asc'}"><img
+							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
+							alt="tri note ascendant" style="width: 10px"></a> <a
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=moderateur.pseudo'+ '&sortDir=desc'}"><img
+							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
+							alt="tri note descendant" style="width: 10px"></a></th>
 					<th>Statut</th>
 				</thead>
 				<tbody>
