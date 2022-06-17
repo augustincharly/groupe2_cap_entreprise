@@ -47,6 +47,26 @@ a.disabled {
 
 		<div>
 			<h2>LISTE DES AVIS</h2>
+			<div>
+				<form method="post" th:object="${filterWrapper}">
+					<label for="jeu-select-filter">Jeu:</label> <select
+						id="jeu-select-filter" th:field=*{jeu_id}>
+						<option value="" selected hidden>Filtrer par jeu</option>
+						<option type="text" th:each="jeu : ${jeux}" th:value="${jeu.id}"
+							th:text="${jeu.nom}">jeu</option>
+					</select> <label for="pseudo-select-filter">Pseudo:</label> <select
+						id="pseudo-select-filter" th:field=*{joueur_id}>
+						<option value="" selected hidden>Filtrer par pseudo</option>
+						<option type="text" th:each="joueur : ${joueurs}"
+							th:value="${joueur.id}" th:text="${joueur.pseudo}">pseudo</option>
+					</select> <label for="statut-select-filter">Statut:</label> <select
+						id="statut-select-filter" th:field=*{moderated}>
+						<option value="" selected hidden>Filtrer par statut</option>
+						<option type="text" th:value="${true}">modéré</option>
+						<option type="text" th:value="${false}">à modérer</option>
+					</select> <input type="submit" value="Filtrer" />
+				</form>
+			</div>
 
 
 			<div class="placeholder" th:if="${list_avis.size() == 0}">pas
@@ -131,13 +151,13 @@ a.disabled {
 					<div style="display: flex">
 						<div>
 							<a
-								th:href="@{'/joueur/avis/page/0?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"><img
+								th:href="@{'/joueur/avis/page/0?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&jeuFilter=' + ${jeuId} + '&joueurFilter=' + ${joueurId} + '&statut=' + ${statutFilter}}"><img
 								class=" icon" th:src="@{/angles-left-solid.svg}"
 								alt="icône début" style="width: 10px"></a>
 						</div>
 						<div>
 							<a
-								th:href="@{'/joueur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}-1)}"
+								th:href="@{'/joueur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  + '&jeuFilter=' + ${jeuId} + '&joueurFilter=' + ${joueurId} + '&statut=' + ${statutFilter}(id=${id}-1)}"
 								th:if="${id != 0 }"><img class=" icon"
 								th:src="@{/angle-left-solid.svg}" alt="icône début"
 								style="width: 10px"></a>
@@ -147,14 +167,14 @@ a.disabled {
 						</div>
 						<div>
 							<a
-								th:href="@{'/joueur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}+1)}"
+								th:href="@{'/joueur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  + '&jeuFilter=' + ${jeuId} + '&joueurFilter=' + ${joueurId} + '&statut=' + ${statutFilter}(id=${id}+1)}"
 								th:if="${id!=totalPages-1}"><img class=" icon"
 								th:src="@{/angle-right-solid.svg}" alt="icône début"
 								style="width: 10px"></a>
 						</div>
 						<div>
 							<a
-								th:href="@{'/joueur/avis/page/'+ ${totalPages-1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+								th:href="@{'/joueur/avis/page/'+ ${totalPages-1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}  + '&jeuFilter=' + ${jeuId} + '&joueurFilter=' + ${joueurId} + '&statut=' + ${statutFilter}}"
 								th:if="${id!=totalPages-1}"><img class=" icon"
 								th:src="@{/angles-right-solid.svg}" alt="icône début"
 								style="width: 10px"></a>
