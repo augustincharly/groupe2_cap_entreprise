@@ -59,7 +59,18 @@ a.disabled {
 
 		<div>
 			<h2>LISTE DES AVIS</h2>
-
+			<div>
+				<form method="post" action="#" th:action="@{'/moderateur/avis/page/0/'}"
+					th:object="${filterWrapper}">
+						<label for="statut-select-filter">Statut:</label> <select
+						id="statut-select-filter" th:field=*{moderated}>
+						<option value="" selected hidden>Filtrer par statut</option>
+						<option type="text" value="">tous les avis</option>
+						<option type="text" value="true">modéré</option>
+						<option type="text" value="false">à modérer</option>
+					</select> <input type="submit" value="Filtrer" />
+				</form>
+			</div>
 
 			<div class="placeholder" th:if="${list_avis.size() == 0}">pas
 				d'avis à afficher</div>
@@ -67,35 +78,35 @@ a.disabled {
 				th:if="${list_avis.size() != 0}">
 				<thead>
 					<th>Joueur <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=asc'}"><img
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=asc' + '&moderated=' + ${statutFilter}}"><img
 							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
 							alt="tri pseudo ascendant" style="width: 10px"></a> <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=desc'}"><img
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=joueur.pseudo'+ '&sortDir=desc' + '&moderated=' + ${statutFilter}}"><img
 							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
 							alt="tri pseudo descendant" style="width: 10px"></a>
 					</th>
 					<th>Jeu <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=asc'}"><img
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=asc' + '&moderated=' + ${statutFilter}}"><img
 							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
 							alt="tri nom ascendant" style="width: 10px"></a> <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=desc'}"><img
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=jeu.nom'+ '&sortDir=desc' + '&moderated=' + ${statutFilter}}"><img
 							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
 							alt="tri nom descendant" style="width: 10px"></a>
 					</th>
 					<th>Description</th>
 					<th>Note <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=note'+ '&sortDir=asc'}"><img
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=note'+ '&sortDir=asc' + '&moderated=' + ${statutFilter}}"><img
 							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
 							alt="tri note ascendant" style="width: 10px"></a> <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=note'+ '&sortDir=desc'}"><img
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=note'+ '&sortDir=desc' + '&moderated=' + ${statutFilter}}"><img
 							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
 							alt="tri note descendant" style="width: 10px"></a>
 					</th>
 					<th>Modérer<a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=moderateur.pseudo'+ '&sortDir=asc'}"><img
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=moderateur.pseudo'+ '&sortDir=asc' + '&moderated=' + ${statutFilter}}"><img
 							class="bouttons_navigation" th:src="@{/up-long-solid.svg}"
 							alt="tri note ascendant" style="width: 10px"></a> <a
-						th:href="@{'/moderateur/avis/page/0/' + '?sortField=moderateur.pseudo'+ '&sortDir=desc'}"><img
+						th:href="@{'/moderateur/avis/page/0/' + '?sortField=moderateur.pseudo'+ '&sortDir=desc' + '&moderated=' + ${statutFilter}}"><img
 							class="bouttons_navigation" th:src="@{/down-long-solid.svg}"
 							alt="tri note descendant" style="width: 10px"></a></th>
 					<th>Statut</th>
@@ -126,13 +137,13 @@ a.disabled {
 				<div style="display: flex">
 					<div>
 						<a
-							th:href="@{'/moderateur/avis/page/0?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"><img
+							th:href="@{'/moderateur/avis/page/0?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}} + '&moderated=' + ${statutFilter}" ><img
 							class=" icon" th:src="@{/angles-left-solid.svg}"
 							alt="icône début" style="width: 10px"></a>
 					</div>
 					<div>
 						<a
-							th:href="@{'/moderateur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}-1)}"
+							th:href="@{'/moderateur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&moderated=' + ${statutFilter}(id=${id}-1)}"
 							th:if="${id != 0 }"><img class=" icon"
 							th:src="@{/angle-left-solid.svg}" alt="icône début"
 							style="width: 10px"></a>
@@ -142,14 +153,14 @@ a.disabled {
 					</div>
 					<div>
 						<a
-							th:href="@{'/moderateur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}(id=${id}+1)}"
+							th:href="@{'/moderateur/avis/page/{id}?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&moderated=' + ${statutFilter}(id=${id}+1)}"
 							th:if="${id!=totalPages-1}"><img class=" icon"
 							th:src="@{/angle-right-solid.svg}" alt="icône début"
 							style="width: 10px"></a>
 					</div>
 					<div>
 						<a
-							th:href="@{'/moderateur/avis/page/'+ ${totalPages-1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+							th:href="@{'/moderateur/avis/page/'+ ${totalPages-1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&moderated=' + ${statutFilter}}"
 							th:if="${id!=totalPages-1}"><img class=" icon"
 							th:src="@{/angles-right-solid.svg}" alt="icône début"
 							style="width: 10px"></a>
