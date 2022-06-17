@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +27,8 @@ import com.humanbooster.groupe2_cap_entreprise.transformer.TransformerFactory;
 @Service
 public class AvisService implements IAvisService {
 
+	@PersistenceContext
+	private EntityManager em;
 	@Autowired
 	private AvisRepository avisRepository;
 
@@ -136,6 +141,13 @@ public class AvisService implements IAvisService {
 				sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
 		return avisRepository.findAll(pageable);
 
+	}
+
+	@Override
+	public List<Avis> getAllAvisSorted(String pseudo, String sortField, String sortDir) {
+		Pageable pageable = PageRequest.of(0, 100,
+				sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+		return avisRepository.findAll(pseudo, pageable).getContent();
 	}
 
 }

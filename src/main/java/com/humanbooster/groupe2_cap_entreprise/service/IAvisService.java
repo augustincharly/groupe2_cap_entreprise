@@ -43,5 +43,7 @@ public interface IAvisService {
 
 	public Page<Avis> getAllPageAvisSortedModerateur(Integer pageNum, String sortField, String sortDir);
 
+	List<Avis> getAllAvisSorted(String pseudo, String sortField, String sortDir);
+
 
 }
