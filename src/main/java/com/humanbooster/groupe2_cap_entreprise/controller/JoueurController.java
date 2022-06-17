@@ -2,10 +2,9 @@ package com.humanbooster.groupe2_cap_entreprise.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,15 +14,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.humanbooster.groupe2_cap_entreprise.dto.AvisDTO;
+import com.humanbooster.groupe2_cap_entreprise.dto.JeuDTO;
 import com.humanbooster.groupe2_cap_entreprise.entity.Avis;
 import com.humanbooster.groupe2_cap_entreprise.entity.Jeu;
+import com.humanbooster.groupe2_cap_entreprise.entity.Joueur;
 import com.humanbooster.groupe2_cap_entreprise.formwrapper.AvisJeuFormWrapper;
+import com.humanbooster.groupe2_cap_entreprise.formwrapper.FilterWrapper;
 import com.humanbooster.groupe2_cap_entreprise.service.IAvisService;
 import com.humanbooster.groupe2_cap_entreprise.service.IJeuService;
+import com.humanbooster.groupe2_cap_entreprise.service.IJoueurService;
 import com.humanbooster.groupe2_cap_entreprise.transformer.TransformerFactory;
+import com.humanbooster.groupe2_cap_entreprise.utils.PaginatedList;
+import com.humanbooster.groupe2_cap_entreprise.utils.Utils;
 
 @Controller
 @RequestMapping("joueur")
@@ -35,32 +41,73 @@ public class JoueurController {
 	@Autowired
 	private IAvisService avisService;
 
-	@RequestMapping("avis/page/{id}")
+	@Autowired
+	private IJoueurService joueurService;
+
+	@GetMapping("avis/page/{id}")
 	public String viewPage(Model model, @PathVariable(name = "id") Integer pageNum,
-			@Param("sortField") String sortField, @Param("sortDir") String sortDir) {
+			@RequestParam(defaultValue = "jeu", name = "sortField") String sortField,
+			@RequestParam(defaultValue = "asc", name = "sortDir") String sortDir,
+			@RequestParam(defaultValue = "none", name = "jeuFilter") String jeuId,
+			@RequestParam(defaultValue = "none", name = "joueurFilter") String joueurId,
+			@RequestParam(defaultValue = "none", name = "moderated") String statut) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String thispseudojoueur = authentication.getName().toString();
-		if (sortField == null) {
-			sortField = "jeu";
+		List<Avis> avisListe = avisService.getAllAvisSorted(thispseudojoueur, sortField, sortDir);
+		if (!jeuId.equals("none")) {
+			avisListe = avisListe.stream().filter(avis -> avis.getJeu().getId() == Utils.stringToLong(jeuId))
+					.collect(Collectors.toList());
 		}
-		if (sortDir == null) {
-			sortDir = "asc";
+		if (!joueurId.equals("none")) {
+			avisListe = avisListe.stream().filter(avis -> avis.getJoueur().getId() == Utils.stringToLong(joueurId))
+					.collect(Collectors.toList());
 		}
-		List<AvisDTO> avisDTOs = new ArrayList<>();
-		Page<Avis> page = avisService.getAllPageAvisSorted(thispseudojoueur, pageNum, sortField, sortDir);
-		List<Avis> avis = avisService.getAllPageAvisSorted(thispseudojoueur, pageNum, sortField, sortDir).getContent();
-		for (Avis avisToAdd : avis) {
-			avisDTOs.add(TransformerFactory.getAvisTransformer().transform(avisToAdd));
+		if (!statut.equals("none")) {
+			if (statut.equals("true")) {
+				avisListe = avisListe.stream().filter(avis -> avis.getModerateur() != null)
+						.collect(Collectors.toList());
+			} else {
+				avisListe = avisListe.stream().filter(avis -> avis.getModerateur() == null)
+						.collect(Collectors.toList());
+			}
+
 		}
+		List<AvisDTO> avisDTOsToDisplay = new ArrayList<>();
+		PaginatedList<Avis> paginatedList = new PaginatedList<Avis>(avisListe);
+		List<Avis> pageEnCours = paginatedList.getPage(pageNum + 1);
+		for (Avis avisToAdd : pageEnCours) {
+			avisDTOsToDisplay.add(TransformerFactory.getAvisTransformer().transform(avisToAdd));
+		}
+
+		List<JeuDTO> jeux = jeuService.getAllJeuDTOs();
+		List<Joueur> joueurs = joueurService.getAllJoueurs();
+		model.addAttribute("jeux", jeux);
+
+		model.addAttribute("joueurs", joueurs);
 		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("totalPages", paginatedList.numberOfPages());
+		model.addAttribute("totalItems", paginatedList.getTotalItems());
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("jeuId", jeuId);
+		model.addAttribute("joueurId", joueurId);
+		model.addAttribute("statutFilter", statut);
 		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-		model.addAttribute("list_avis", avisDTOs);
+		model.addAttribute("list_avis", avisDTOsToDisplay);
+		model.addAttribute("filterWrapper", new FilterWrapper());
 
 		return "joueur/avisListe";
+	}
+
+	@PostMapping("avis/page/{id}")
+	public ModelAndView viewPagePost(Model model, @PathVariable(name = "id") Integer pageNum,
+			@ModelAttribute FilterWrapper filterWrapper) {
+		Long jeuId = filterWrapper.getJeu_id();
+		Long joueurId = filterWrapper.getJoueur_id();
+		boolean statut = filterWrapper.getModerated();
+		ModelAndView modelAndView = new ModelAndView("redirect:/joueur/avis/page/0?sortField=jeu&sortDir=asc&jeuFilter="
+				+ jeuId + "&joueurFilter=" + joueurId + "&moderated=" + statut);
+		return modelAndView;
 	}
 
 	@GetMapping("avis/new")
