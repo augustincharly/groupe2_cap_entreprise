@@ -47,7 +47,7 @@ a.disabled {
 
 		<div>
 			<h2>LISTE DES AVIS</h2>
-			<div>
+			<div style="margin-bottom: 15px">
 				<form method="post" action="#" th:action="@{'/joueur/avis/page/0/'}" th:object="${filterWrapper}">
 					<label for="jeu-select-filter">Jeu:</label> <select
 						id="jeu-select-filter" th:field=*{jeu_id}>
